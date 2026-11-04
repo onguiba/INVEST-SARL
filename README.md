@@ -1,26 +1,26 @@
-# 🚀 TECHNOVA - Plateforme de Gestion des Interventions Techniques
+# TECHNOVA - Plateforme de Gestion des Interventions Techniques
 
-## 📱 Application Responsive & Sécurisée
+## Application Responsive & Sécurisée
 
-**TECHNOVA** est une plateforme web intelligente et **100% responsive** pour la gestion des interventions techniques, développée pour **AFRICAN BUSINESS INVEST SARL**.
+TECHNOVA est une plateforme web intelligente et 100% responsive pour la gestion des interventions techniques, développée pour AFRICAN BUSINESS INVEST SARL.
 
-### ✨ Fonctionnalités Principales
+### Fonctionnalités Principales
 
-- 🔐 **Authentification sécurisée** (HMAC-SHA256 tokens)
-- 👥 **Multi-rôles** (Admin, Responsable Technique, Technicien, Client)
-- 📊 **Dashboard interactif** avec statistiques temps réel
-- 📋 **Gestion complète des interventions**
-- 🛠️ **Suivi des équipements**
-- 🔔 **Système de notifications**
-- 📱 **Interface responsive** (mobile, tablette, desktop)
-- 🎯 **Menu hamburger mobile** avec overlay
-- ⚡ **Synchronisation automatique** (polling 5s)
+- Authentification sécurisée (HMAC-SHA256 tokens)
+- Multi-rôles (Admin, Responsable Technique, Technicien, Client)
+- Dashboard interactif avec statistiques temps réel
+- Gestion complète des interventions
+- Suivi des équipements
+- Système de notifications
+- Interface responsive (mobile, tablette, desktop)
+- Menu hamburger mobile avec overlay
+- Synchronisation automatique (polling 5s)
 
 ---
 
-## 🎯 Démarrage Rapide
+## Démarrage Rapide
 
-### **1. Installation**
+### 1. Installation
 ```bash
 # Cloner ou télécharger le projet
 cd "INVEST SARL"
@@ -29,86 +29,69 @@ cd "INVEST SARL"
 npm install
 ```
 
-### **2. Démarrer le Serveur**
+### 2. Démarrer le Serveur
 ```bash
 node server.js
 ```
 
 Le serveur démarre sur `http://localhost:3000`
 
-### **3. Accéder à l'Application**
-- **Desktop:** `http://localhost:3000`
-- **Mobile (même WiFi):** `http://[IP_LOCALE]:3000`
+### 3. Accéder à l'Application
+- Desktop: http://localhost:3000
+- Mobile (même WiFi): http://[IP_LOCALE]:3000
 
 ---
 
-## 🔑 Identifiants de Connexion
-
-⚠️ **IMPORTANT:** Si vous obtenez des erreurs 401, suivez les instructions dans `INSTRUCTIONS_REINITIALISATION.md`
+## Identifiants de Connexion
 
 | Rôle | Email | Mot de passe |
 |------|-------|--------------|
-| **ADMIN** | daniel@africanbusiness.cm | admin123 |
-| **RESP_TECH** | michel@africanbusiness.cm | resp123 |
-| **TECHNICIEN** | jean@africanbusiness.cm | tech123 |
-| **CLIENT** | client@africanbusiness.cm | client123 |
+| ADMIN | daniel@africanbusiness.cm | admin123 |
+| RESP_TECH | michel@africanbusiness.cm | resp123 |
+| TECHNICIEN | jean@africanbusiness.cm | tech123 |
+| CLIENT | client@africanbusiness.cm | client123 |
 
 ---
 
-## 📱 Design Responsive
+## Design Responsive
 
 L'application s'adapte automatiquement à tous les écrans :
 
-### **📱 Mobile (< 768px)**
-- Menu hamburger ☰
+### Mobile (< 768px)
+- Menu hamburger
 - Sidebar slide-in avec overlay
 - Stats en 1 colonne
 - Boutons pleine largeur
 - Formulaires iOS-friendly
 
-### **📱 Tablette (768px - 1100px)**
+### Tablette (768px - 1100px)
 - Menu hamburger
 - Stats en 2 colonnes
 - Layout optimisé
 
-### **💻 Desktop (> 1100px)**
+### Desktop (> 1100px)
 - Sidebar permanente
 - Stats en 4 colonnes
 - Layout complet
 
-**👉 Guide complet:** `QUICKSTART_RESPONSIVE.md`
-
 ---
 
-## 📚 Documentation
+## Architecture Technique
 
-| Fichier | Description |
-|---------|-------------|
-| **QUICKSTART_RESPONSIVE.md** | 🚀 Démarrage rapide responsive |
-| **RESPONSIVE_RESUME.md** | ✨ Résumé des améliorations |
-| **RESPONSIVE_GUIDE.md** | 📖 Guide technique complet |
-| **RESPONSIVE_CHECKLIST.md** | ✅ Tests à effectuer |
-| **FIX_AUTHENTICATION_README.md** | 🔐 Documentation authentification |
-| **INSTRUCTIONS_REINITIALISATION.md** | 🔄 Réinitialisation BDD |
+### Backend
+- Node.js + Express
+- SQLite 3 (mode WAL)
+- Authentification HMAC-SHA256
+- RBAC (Role-Based Access Control)
+- API RESTful
 
----
+### Frontend
+- Vanilla JavaScript (pas de framework)
+- CSS3 responsive (7 breakpoints)
+- Chart.js pour graphiques
+- Font Awesome pour icônes
 
-## 🏗️ Architecture Technique
-
-### **Backend**
-- **Node.js** + Express
-- **SQLite 3** (mode WAL)
-- **Authentification HMAC-SHA256**
-- **RBAC** (Role-Based Access Control)
-- **API RESTful**
-
-### **Frontend**
-- **Vanilla JavaScript** (pas de framework)
-- **CSS3 responsive** (7 breakpoints)
-- **Chart.js** pour graphiques
-- **Font Awesome** pour icônes
-
-### **Sécurité**
+### Sécurité
 - Hachage mots de passe (scrypt)
 - Tokens signés (24h expiration)
 - Validation des rôles
@@ -116,7 +99,7 @@ L'application s'adapte automatiquement à tous les écrans :
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```
 INVEST SARL/
@@ -143,49 +126,49 @@ INVEST SARL/
 
 ---
 
-## 🔧 Technologies Utilisées
+## Technologies Utilisées
 
-### **Core**
+### Core
 - Node.js v18+
 - Express 4.x
 - SQLite 3 (better-sqlite3)
 
-### **Frontend**
+### Frontend
 - Chart.js 4.x
 - Font Awesome 6.5
 - Google Fonts (Plus Jakarta Sans, Inter)
 
-### **Sécurité**
+### Sécurité
 - Node.js Crypto (native)
 - CORS
 - HMAC-SHA256
 
 ---
 
-## 🚀 Fonctionnalités par Rôle
+## Fonctionnalités par Rôle
 
-### **👑 ADMIN (Administrateur)**
+### ADMIN (Administrateur)
 - Vue complète du système
 - Gestion des utilisateurs
 - Statistiques globales
 - Toutes les interventions
 - Configuration système
 
-### **🎧 RESP_TECH (Responsable Technique)**
+### RESP_TECH (Responsable Technique)
 - Affectation des interventions
 - Dispatch board (kanban)
 - Vue d'ensemble équipe
 - Planification
 - Statistiques équipe
 
-### **🔧 TECHNICIEN (Technicien Terrain)**
+### TECHNICIEN (Technicien Terrain)
 - Interventions assignées
 - Interface mobile optimisée
 - Timer interventions
 - Mise à jour statuts
 - Observations terrain
 
-### **🏢 CLIENT (Demandeur)**
+### CLIENT (Demandeur)
 - Création de demandes
 - Suivi des interventions
 - Historique personnel
@@ -194,9 +177,9 @@ INVEST SARL/
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
-### **Authentification**
+### Authentification
 ```
 POST   /api/auth/register-client  # Inscription client
 POST   /api/auth/login            # Connexion
@@ -204,7 +187,7 @@ GET    /api/auth/me               # Profil utilisateur
 GET    /api/auth/users            # Liste utilisateurs (Admin)
 ```
 
-### **Interventions**
+### Interventions
 ```
 GET    /api/interventions         # Liste (filtrée par rôle)
 GET    /api/interventions/:id     # Détails
@@ -213,13 +196,13 @@ PATCH  /api/interventions/:id/assign  # Affecter (Admin/Resp)
 PATCH  /api/interventions/:id/status  # Changer statut
 ```
 
-### **Statistiques**
+### Statistiques
 ```
 GET    /api/stats/dashboard       # Stats dashboard
 GET    /api/stats/technicians     # Performance techniciens
 ```
 
-### **Notifications**
+### Notifications
 ```
 GET    /api/notifications         # Liste notifications
 PATCH  /api/notifications/:id/read  # Marquer lu
@@ -227,20 +210,20 @@ PATCH  /api/notifications/:id/read  # Marquer lu
 
 ---
 
-## 🐛 Dépannage
+## Dépannage
 
-### **Erreurs 401 Unauthorized**
-👉 Suivez `INSTRUCTIONS_REINITIALISATION.md` pour réinitialiser la BDD
+### Erreurs 401 Unauthorized
+Redémarrez le serveur et videz le cache du navigateur
 
-### **Menu hamburger ne fonctionne pas**
-1. Vérifiez la console (`F12`)
-2. Rechargez sans cache (`Ctrl + Shift + R`)
-3. Vérifiez que `sidebarOverlay` existe dans le DOM
+### Menu hamburger ne fonctionne pas
+1. Vérifiez la console (F12)
+2. Rechargez sans cache (Ctrl + Shift + R)
+3. Vérifiez que sidebarOverlay existe dans le DOM
 
-### **Zoom automatique iOS**
-✅ **Déjà corrigé:** Les inputs ont `font-size: 16px`
+### Zoom automatique iOS
+Déjà corrigé: Les inputs ont font-size: 16px
 
-### **Base de données verrouillée**
+### Base de données verrouillée
 ```bash
 # Arrêter le serveur (Ctrl+C)
 # Supprimer les fichiers de lock
@@ -252,9 +235,9 @@ node server.js
 
 ---
 
-## 🧪 Tests Responsive
+## Tests Responsive
 
-### **Sur Desktop**
+### Sur Desktop
 ```bash
 1. F12 (ouvrir DevTools)
 2. Ctrl + Shift + M (mode responsive)
@@ -262,7 +245,7 @@ node server.js
 4. Tester menu hamburger
 ```
 
-### **Sur Mobile Réel**
+### Sur Mobile Réel
 ```bash
 1. Trouver l'IP locale de votre PC
    > ipconfig (Windows)
@@ -275,47 +258,47 @@ node server.js
 
 ---
 
-## 🎉 Changelog
+## Changelog
 
-### **v2.0.0 - Responsive Design** (2026-11-04)
-- ✅ Design 100% responsive (mobile, tablette, desktop)
-- ✅ Menu hamburger avec overlay
-- ✅ 7 breakpoints professionnels
-- ✅ Touch-optimized (44px zones tactiles)
-- ✅ iOS-friendly forms (pas de zoom)
-- ✅ Tables scrollables
-- ✅ Modals responsives
+### v2.0.0 - Responsive Design (2026-11-04)
+- Design 100% responsive (mobile, tablette, desktop)
+- Menu hamburger avec overlay
+- 7 breakpoints professionnels
+- Touch-optimized (44px zones tactiles)
+- iOS-friendly forms (pas de zoom)
+- Tables scrollables
+- Modals responsives
 
-### **v1.0.1 - Auth Fix** (2026-11-04)
-- ✅ Correction authentification 401/403
-- ✅ Nouveaux identifiants simplifiés
-- ✅ Fonction `switchActiveRole` ajoutée
-- ✅ Documentation complète
+### v1.0.1 - Auth Fix (2026-11-04)
+- Correction authentification 401/403
+- Nouveaux identifiants simplifiés
+- Fonction switchActiveRole ajoutée
+- Documentation complète
 
-### **v1.0.0 - Initial Release** (2025-10-27)
-- ✅ Backend API complet
-- ✅ Base de données SQLite
-- ✅ Interface multi-rôles
-- ✅ Authentification sécurisée
-- ✅ Dashboard interactif
+### v1.0.0 - Initial Release (2025-10-27)
+- Backend API complet
+- Base de données SQLite
+- Interface multi-rôles
+- Authentification sécurisée
+- Dashboard interactif
 
 ---
 
-## 📞 Support
+## Support
 
 Pour toute question technique:
-- Consultez la documentation (fichiers `*_README.md`)
-- Vérifiez la console navigateur (`F12`)
-- Suivez les guides de dépannage
+- Vérifiez la console navigateur (F12)
+- Consultez les logs du serveur
+- Redémarrez le serveur en cas de problème
 
 ---
 
-## 📜 Licence
+## Licence
 
 Propriétaire - AFRICAN BUSINESS INVEST SARL © 2026
 
 ---
 
-**Développé avec ❤️ pour AFRICAN BUSINESS INVEST SARL**  
-**Version:** 2.0.0 - Full Responsive  
-**Date:** 2026-11-04
+Développé pour AFRICAN BUSINESS INVEST SARL
+Version: 2.0.0 - Full Responsive
+Date: 2026-11-04
