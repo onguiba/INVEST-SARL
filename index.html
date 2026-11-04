@@ -1,0 +1,3462 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECHNOVA | Plateforme Intelligente de Gestion des Interventions - AFRICAN BUSINESS INVEST SARL</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN for interactive charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-navy: #0b1a38;
+      --navy-sidebar: #091630;
+      --navy-sidebar-hover: #132449;
+      --electric-blue: #1a6cf0;
+      --electric-blue-hover: #1254bf;
+      --electric-blue-light: #e8f1fd;
+      --turquoise: #00d284;
+      --turquoise-dark: #00b06f;
+      --turquoise-light: #e6faf2;
+      --orange-accent: #f79009;
+      --orange-light: #fef4e6;
+      --red-accent: #f04438;
+      --red-light: #fee4e2;
+      --purple-accent: #7a5af8;
+      --purple-light: #f4f3ff;
+      --text-dark: #101828;
+      --text-muted: #667085;
+      --text-light: #98a2b3;
+      --border-color: #eaecf0;
+      --bg-page: #f4f7fb;
+      --card-bg: #ffffff;
+      --card-shadow: 0 4px 20px -2px rgba(16, 24, 40, 0.05), 0 2px 6px -1px rgba(16, 24, 40, 0.03);
+      --card-shadow-hover: 0 12px 28px -4px rgba(16, 24, 40, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; outline: none; transition: all 0.2s ease; }
+    input, select, textarea { font-family: inherit; }
+
+    /* ROLE SWITCHER FLOATING BAR AT TOP */
+    .role-switcher-banner {
+      background: #060e20;
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 1000;
+      position: sticky;
+      top: 0;
+    }
+    .role-pills-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .role-pill-btn {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.12);
+      color: #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .role-pill-btn:hover {
+      background: rgba(255,255,255,0.22);
+      color: #ffffff;
+    }
+    .role-pill-btn.active-role {
+      background: var(--electric-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(26,108,240,0.5);
+    }
+
+    /* APP CONTAINER */
+    .app-container {
+      display: flex;
+      min-height: calc(100vh - 41px);
+      width: 100%;
+    }
+
+    /* SIDEBAR (EXACT MATCH WITH IMAGE) */
+    .sidebar {
+      width: 260px;
+      background-color: var(--navy-sidebar);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 24px 16px 20px;
+      position: sticky;
+      top: 41px;
+      height: calc(100vh - 41px);
+      overflow-y: auto;
+      z-index: 95;
+      transition: all 0.3s ease;
+    }
+    .sidebar-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 18px;
+    }
+    .brand-logo-wrap {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1877f2 0%, #00d284 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 14px rgba(24, 119, 242, 0.4);
+    }
+    .brand-logo-wrap i { font-size: 28px; color: #ffffff; }
+    .brand-title { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
+    .brand-subtitle { font-size: 11px; color: #8fa0be; margin-top: 4px; line-height: 1.3; max-width: 200px; }
+    
+    .sidebar-menu { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
+    .nav-category { font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700; margin: 12px 10px 4px; letter-spacing: 0.5px; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      border-radius: 12px;
+      color: #9cb0d1;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-item i { font-size: 16px; width: 20px; text-align: center; }
+    .nav-item:hover { background-color: var(--navy-sidebar-hover); color: #ffffff; }
+    .nav-item.active {
+      background-color: var(--electric-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(26, 108, 240, 0.35);
+    }
+
+    /* Sidebar bottom rocket promo card */
+    .sidebar-bottom-card {
+      margin-top: 20px;
+      background: linear-gradient(180deg, #102144 0%, #0b1732 100%);
+      border: 1px solid #1c325c;
+      border-radius: 16px;
+      padding: 18px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .rocket-icon {
+      font-size: 32px;
+      color: #ffa114;
+      filter: drop-shadow(0 0 12px rgba(255, 161, 20, 0.6));
+      margin-bottom: 8px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .sidebar-bottom-card p { font-size: 11.5px; color: #d0dcee; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+    .sidebar-bottom-btn {
+      background-color: #ffffff;
+      color: var(--primary-navy);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .sidebar-bottom-btn:hover { background-color: #e4edf8; transform: translateY(-1px); }
+
+    /* MAIN WRAPPER */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background-color: var(--bg-page);
+    }
+
+    /* TOPBAR (EXACT REPLICA) */
+    .topbar {
+      height: 72px;
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 41px;
+      z-index: 90;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .company-badge { display: flex; align-items: center; gap: 10px; }
+    .company-icon-box {
+      width: 32px; height: 32px;
+      background-color: var(--electric-blue-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--electric-blue); font-size: 16px;
+    }
+    .company-name { font-weight: 800; font-size: 14.5px; color: var(--primary-navy); letter-spacing: 0.3px; }
+    .company-divider { color: #cfd8e3; margin: 0 4px; font-weight: 300; }
+    .company-subname { font-weight: 500; font-size: 13px; color: var(--text-muted); }
+
+    .topbar-right { display: flex; align-items: center; gap: 18px; }
+    .notif-bell-btn {
+      position: relative;
+      background: #f7f9fc;
+      border: 1px solid #e2e8f0;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #475467; font-size: 17px;
+    }
+    .notif-bell-btn:hover { background: #edf2f7; color: var(--electric-blue); }
+    .notif-badge {
+      position: absolute; top: -4px; right: -4px;
+      background-color: var(--red-accent); color: #ffffff;
+      font-size: 10px; font-weight: 700; width: 18px; height: 18px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      border: 2px solid #ffffff;
+    }
+    .user-profile-header {
+      display: flex; align-items: center; gap: 12px;
+      cursor: pointer; padding: 4px 8px; border-radius: 10px;
+    }
+    .user-profile-header:hover { background-color: #f8fafc; }
+    .user-avatar-top {
+      width: 42px; height: 42px; border-radius: 50%;
+      object-fit: cover; border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .user-name-top { font-size: 13.5px; font-weight: 700; color: var(--primary-navy); display: block; }
+    .user-role-top { font-size: 11px; font-weight: 600; color: var(--electric-blue); display: block; }
+    .mobile-nav-toggle { display: none; background: transparent; font-size: 20px; color: var(--primary-navy); padding: 6px; }
+
+    /* VIEW CONTENT */
+    .view-content {
+      padding: 24px 32px 40px;
+      flex: 1;
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .view-content.active-view { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* CARDS & GRIDS */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      padding: 22px;
+    }
+    .card-header-simple {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+    }
+    .card-header-title {
+      font-size: 15.5px; font-weight: 700; color: var(--primary-navy); display: flex; align-items: center; gap: 8px;
+    }
+    .link-more {
+      font-size: 12.5px; font-weight: 700; color: var(--electric-blue); cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .link-more:hover { text-decoration: underline; }
+
+    /* BUTTONS */
+    .btn-quick-primary {
+      background-color: var(--electric-blue); color: #ffffff;
+      padding: 11px 18px; border-radius: 12px; font-size: 13px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 12px rgba(26, 108, 240, 0.35);
+    }
+    .btn-quick-primary:hover { background-color: var(--electric-blue-hover); transform: translateY(-1px); }
+    .btn-quick-outline {
+      background-color: #ffffff; color: var(--primary-navy);
+      border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 12px;
+      font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-quick-outline:hover { background-color: #f8fafc; border-color: #cbd5e1; }
+    .btn-success {
+      background-color: var(--turquoise); color: #ffffff;
+      padding: 11px 18px; border-radius: 12px; font-size: 13px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-success:hover { background-color: var(--turquoise-dark); }
+
+    /* BADGES */
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .badge-haute { background-color: #fee4e2; color: #d92d20; }
+    .badge-moyenne { background-color: #fef0c7; color: #b54708; }
+    .badge-basse { background-color: #e0f2fe; color: #0284c7; }
+    .badge-en-cours { background-color: #dbeafe; color: #1d4ed8; }
+    .badge-resolue { background-color: #d1fae5; color: #059669; }
+    .badge-en-attente { background-color: #e0e7ff; color: #4338ca; }
+    .badge-planifiee { background-color: #fae8ff; color: #a21caf; }
+
+    /* TABLES */
+    .table-container { overflow-x: auto; }
+    .custom-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .custom-table th {
+      padding: 12px 14px; font-size: 11.5px; font-weight: 700; color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color); background-color: #fafbfc;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .custom-table td {
+      padding: 13px 14px; font-size: 13px; color: var(--text-dark); border-bottom: 1px solid #f0f3f8; vertical-align: middle;
+    }
+    .custom-table tr:hover td { background-color: #fbfcfe; }
+    .ref-code { font-weight: 700; color: var(--primary-navy); font-family: monospace; font-size: 12.5px; }
+    .tech-cell { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .tech-mini-avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+    .action-icon-btn {
+      width: 30px; height: 30px; border-radius: 8px; background-color: #f1f5f9;
+      color: var(--electric-blue); display: inline-flex; align-items: center; justify-content: center;
+    }
+    .action-icon-btn:hover { background-color: var(--electric-blue); color: #ffffff; }
+
+    /* DASHBOARD BANNER & STATS (MATCHING IMAGE) */
+    .dashboard-hero {
+      background: linear-gradient(90deg, #071630 0%, #0d2859 55%, #123e7f 100%);
+      border-radius: var(--radius-xl); padding: 28px 36px; color: #ffffff;
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(11, 26, 56, 0.15);
+    }
+    .hero-content { max-width: 580px; }
+    .hero-title { font-size: 26px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.3px; }
+    .hero-title span { color: #268aff; }
+    .hero-desc { font-size: 14px; color: #c3d4ee; line-height: 1.5; margin-bottom: 20px; }
+    .hero-btn {
+      background-color: var(--electric-blue); color: #ffffff; padding: 10px 22px;
+      border-radius: 24px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 14px rgba(24, 119, 242, 0.4);
+    }
+    .hero-btn:hover { background-color: var(--electric-blue-hover); transform: translateY(-2px); }
+    .hero-image-wrap {
+      width: 320px; height: 155px; border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0;
+    }
+    .hero-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--card-bg); border-radius: var(--radius-lg); padding: 22px 20px;
+      display: flex; align-items: center; gap: 16px; border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow); transition: transform 0.2s ease;
+    }
+    .stat-card:hover { transform: translateY(-3px); }
+    .stat-icon-circle {
+      width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: #ffffff; flex-shrink: 0;
+    }
+    .stat-icon-circle.blue { background: linear-gradient(135deg, #1877f2, #3b82f6); }
+    .stat-icon-circle.green { background: linear-gradient(135deg, #00d284, #10b981); }
+    .stat-icon-circle.orange { background: linear-gradient(135deg, #ff9f1c, #f59e0b); }
+    .stat-icon-circle.emerald { background: linear-gradient(135deg, #059669, #10b981); }
+    .stat-info { flex: 1; }
+    .stat-num-row { display: flex; align-items: baseline; justify-content: space-between; }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--primary-navy); line-height: 1; }
+    .stat-tag { font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
+    .stat-tag.green-text { color: #00ba74; }
+    .stat-tag.orange-text { color: #f59e0b; }
+    .stat-title { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-top: 4px; }
+
+    .dashboard-middle-row { display: grid; grid-template-columns: 2fr 1.1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .chart-container-box { position: relative; width: 100%; height: 200px; }
+    .resolution-card-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center; }
+    .gauge-wrap { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+    .gauge-text { position: absolute; text-align: center; }
+    .gauge-percent { font-size: 26px; font-weight: 800; color: var(--primary-navy); }
+    .gauge-status { font-size: 12px; font-weight: 700; color: #00ba74; margin-top: 4px; }
+    .quick-actions-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+
+    .dashboard-bottom-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    .technicians-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+    .tech-item-row { display: flex; align-items: center; gap: 12px; }
+    .tech-img-large { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .tech-item-info { flex: 1; }
+    .tech-item-name { font-size: 13.5px; font-weight: 700; color: var(--primary-navy); display: flex; align-items: center; justify-content: space-between; }
+    .tech-status-dot { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
+    .dot-online { width: 7px; height: 7px; border-radius: 50%; background-color: #10b981; }
+    .dot-busy { width: 7px; height: 7px; border-radius: 50%; background-color: #f59e0b; }
+    .tech-progress-bar-bg { height: 6px; border-radius: 6px; background-color: #edf2f7; overflow: hidden; }
+    .tech-progress-bar-fill { height: 100%; border-radius: 6px; }
+    .tech-rate-val { font-size: 11.5px; font-weight: 700; color: var(--text-muted); }
+
+    /* ============================================================
+       INTERFACE SPECIFIQUE 1: RESPONSABLE TECHNIQUE
+       ============================================================ */
+    .dispatch-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .dispatch-column-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 14px;
+      font-weight: 700;
+      color: var(--primary-navy);
+    }
+    .dispatch-ticket-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.2s;
+    }
+    .dispatch-ticket-card:hover {
+      border-color: var(--electric-blue);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .dispatch-ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .dispatch-ticket-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 4px;
+    }
+    .dispatch-ticket-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* ============================================================
+       INTERFACE SPECIFIQUE 2: TECHNICIEN (MOBILE FIELD VIEW)
+       ============================================================ */
+    .tech-mobile-container {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 28px;
+      border: 8px solid #0f172a;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+      min-height: 820px;
+      display: flex;
+      flex-direction: column;
+    }
+    .tech-mobile-notch {
+      height: 24px;
+      background: #0f172a;
+      border-radius: 0 0 16px 16px;
+      width: 160px;
+      margin: 0 auto;
+    }
+    .tech-mobile-header {
+      background: linear-gradient(135deg, #091630 0%, #173872 100%);
+      color: #ffffff;
+      padding: 20px 20px 24px;
+    }
+    .tech-mobile-body {
+      padding: 20px;
+      flex: 1;
+      background: #f8fafc;
+      overflow-y: auto;
+    }
+    .tech-mission-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .tech-timer-display {
+      background: #f1f5f9;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      font-family: monospace;
+      color: var(--primary-navy);
+      margin: 12px 0;
+      letter-spacing: 2px;
+    }
+
+    /* ============================================================
+       INTERFACE SPECIFIQUE 3: CLIENT / DEMANDEUR
+       ============================================================ */
+    .client-portal-hero {
+      background: linear-gradient(135deg, #0b1a38 0%, #1e427f 100%);
+      color: #ffffff;
+      padding: 30px;
+      border-radius: var(--radius-xl);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stepper-tracker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      margin: 20px 0 10px;
+    }
+    .stepper-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      z-index: 2;
+    }
+    .stepper-bubble {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .stepper-bubble.completed {
+      background: var(--turquoise);
+      color: #ffffff;
+    }
+    .stepper-bubble.current {
+      background: var(--electric-blue);
+      color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(26,108,240,0.25);
+    }
+    .stepper-line {
+      position: absolute;
+      top: 18px;
+      left: 30px;
+      right: 30px;
+      height: 3px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .stepper-line-fill {
+      height: 100%;
+      background: var(--turquoise);
+      width: 50%;
+      transition: width 0.3s ease;
+    }
+
+    /* FORM GROUPS */
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--primary-navy); margin-bottom: 6px; }
+    .form-control {
+      width: 100%; border: 1px solid var(--border-color); border-radius: 10px;
+      padding: 10px 14px; font-size: 13.5px; color: var(--text-dark); outline: none;
+    }
+    .form-control:focus { border-color: var(--electric-blue); }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(9, 22, 48, 0.6); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #ffffff; border-radius: var(--radius-xl); padding: 30px;
+      width: 100%; max-width: 580px; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .modal-header h3 { font-size: 18px; font-weight: 800; color: var(--primary-navy); }
+    .modal-close-btn { background: transparent; font-size: 20px; color: var(--text-muted); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background-color: var(--primary-navy);
+      color: #ffffff; padding: 14px 22px; border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center;
+      gap: 10px; font-size: 13.5px; font-weight: 600; z-index: 9999;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* LANDING & LOGIN WRAPPERS */
+    .landing-page-wrap, .login-page-wrap { display: none; }
+    .landing-page-wrap.active-view { display: block; }
+    .login-page-wrap.active-view { display: flex; min-height: 100vh; align-items: center; justify-content: center; background: linear-gradient(135deg, #091630 0%, #102652 100%); }
+
+    /* ============================================================
+       RESPONSIVE DESIGN - MOBILE, TABLETTE, DESKTOP
+       ============================================================ */
+    
+    /* OVERLAY POUR FERMER LA SIDEBAR SUR MOBILE */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 94;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    /* TABLETTES LARGES & PETITS DESKTOPS (max-width: 1280px) */
+    @media (max-width: 1280px) {
+      .dashboard-middle-row { 
+        grid-template-columns: 1.5fr 1fr 1fr; 
+      }
+      .hero-content { max-width: 480px; }
+      .hero-title { font-size: 24px; }
+      .hero-image-wrap { width: 280px; height: 140px; }
+    }
+
+    /* TABLETTES (max-width: 1100px) */
+    @media (max-width: 1100px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-middle-row { grid-template-columns: 1fr; }
+      .dashboard-bottom-row { grid-template-columns: 1fr; }
+      .dispatch-board { grid-template-columns: 1fr; }
+      
+      .hero-image-wrap { 
+        width: 240px; 
+        height: 120px; 
+      }
+      
+      .topbar { padding: 0 24px; }
+      .view-content { padding: 20px 24px; }
+      
+      /* Réduire la taille des cartes stats */
+      .stat-card { padding: 18px 16px; }
+      .stat-icon-circle { width: 48px; height: 48px; font-size: 20px; }
+      .stat-value { font-size: 24px; }
+    }
+
+    /* TABLETTES PORTRAIT & GRANDS MOBILES (max-width: 900px) */
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 200;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+      }
+      .sidebar.open {
+        left: 0;
+      }
+      
+      .mobile-nav-toggle { 
+        display: block; 
+        order: -1;
+      }
+      
+      .topbar {
+        height: 64px;
+        padding: 0 16px;
+        top: 41px;
+      }
+      
+      .company-name { font-size: 13px; }
+      .company-subname { display: none; }
+      .company-icon-box { width: 28px; height: 28px; font-size: 14px; }
+      
+      .user-info-top { display: none; }
+      .user-avatar-top { width: 36px; height: 36px; }
+      
+      .notif-bell-btn { width: 36px; height: 36px; font-size: 15px; }
+      
+      .view-content { padding: 16px; }
+      
+      .dashboard-hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 20px;
+      }
+      .hero-content { max-width: 100%; }
+      .hero-image-wrap {
+        width: 100%;
+        max-width: 400px;
+        height: 200px;
+        margin-top: 16px;
+      }
+      
+      .stats-row { gap: 12px; }
+      
+      .card { padding: 18px; }
+      
+      /* Tables responsive */
+      .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .custom-table {
+        min-width: 600px;
+      }
+    }
+
+    /* MOBILES (max-width: 768px) */
+    @media (max-width: 768px) {
+      .role-switcher-banner {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+      .role-switcher-banner > div {
+        flex-direction: column;
+        gap: 6px;
+      }
+      .role-pills-group {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .role-pill-btn {
+        padding: 4px 10px;
+        font-size: 10.5px;
+      }
+      
+      .topbar-left .company-badge {
+        gap: 8px;
+      }
+      
+      .stats-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .stat-card {
+        padding: 16px;
+      }
+      
+      .dashboard-middle-row,
+      .dashboard-bottom-row {
+        gap: 16px;
+      }
+      
+      .hero-title { font-size: 20px; }
+      .hero-desc { font-size: 13px; }
+      .hero-btn { padding: 9px 18px; font-size: 12px; }
+      
+      /* Formulaires plus grands sur mobile */
+      .form-control {
+        padding: 12px 14px;
+        font-size: 16px; /* Évite le zoom automatique sur iOS */
+      }
+      
+      /* Boutons plus accessibles sur mobile */
+      .btn-quick-primary,
+      .btn-quick-outline,
+      .btn-success {
+        padding: 12px 20px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+      }
+      
+      /* Modal plein écran sur mobile */
+      .modal-card {
+        max-width: 100%;
+        margin: 16px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+      }
+      
+      /* Cartes techniciens */
+      .tech-item-row {
+        flex-wrap: wrap;
+      }
+      .tech-img-large {
+        width: 40px;
+        height: 40px;
+      }
+      
+      /* Dispatch board */
+      .dispatch-ticket-card {
+        padding: 14px;
+      }
+      .dispatch-ticket-meta {
+        flex-direction: column;
+        gap: 6px;
+      }
+      
+      /* Client portal */
+      .client-portal-hero {
+        flex-direction: column;
+        padding: 20px;
+        gap: 16px;
+      }
+      
+      .stepper-tracker {
+        margin: 16px 0;
+      }
+      .stepper-bubble {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+      .stepper-step span {
+        font-size: 10px;
+      }
+    }
+
+    /* PETITS MOBILES (max-width: 480px) */
+    @media (max-width: 480px) {
+      .topbar {
+        height: 56px;
+        padding: 0 12px;
+      }
+      
+      .view-content {
+        padding: 12px;
+      }
+      
+      .company-name {
+        font-size: 12px;
+      }
+      
+      .brand-title {
+        font-size: 18px;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      .card {
+        padding: 14px;
+        border-radius: var(--radius-md);
+      }
+      
+      .card-header-title {
+        font-size: 14px;
+      }
+      
+      .stat-value {
+        font-size: 22px;
+      }
+      
+      .stat-title {
+        font-size: 12px;
+      }
+      
+      .hero-title {
+        font-size: 18px;
+      }
+      
+      .hero-desc {
+        font-size: 12px;
+      }
+      
+      .dashboard-hero {
+        padding: 18px 16px;
+      }
+      
+      /* Tables très compactes */
+      .custom-table th,
+      .custom-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+      
+      /* Toast en bas */
+      .toast {
+        bottom: 12px;
+        right: 12px;
+        left: 12px;
+        padding: 12px 16px;
+        font-size: 12px;
+      }
+      
+      /* Tech mobile container plus petit */
+      .tech-mobile-container {
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        min-height: 100vh;
+      }
+      
+      .tech-mobile-notch {
+        display: none;
+      }
+    }
+
+    /* ORIENTATION PAYSAGE SUR MOBILE */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .sidebar {
+        overflow-y: auto;
+      }
+      
+      .sidebar-bottom-card {
+        display: none;
+      }
+      
+      .dashboard-hero {
+        padding: 16px;
+      }
+      
+      .hero-image-wrap {
+        display: none;
+      }
+    }
+
+    /* TRÈS GRANDS ÉCRANS (min-width: 1600px) */
+    @media (min-width: 1600px) {
+      .view-content {
+        max-width: 1520px;
+        margin: 0 auto;
+      }
+      
+      .stats-row {
+        gap: 24px;
+      }
+      
+      .dashboard-middle-row,
+      .dashboard-bottom-row {
+        gap: 24px;
+      }
+    }
+
+    /* AMÉLIORATION DE L'ACCESSIBILITÉ TOUCH */
+    @media (hover: none) and (pointer: coarse) {
+      /* Augmenter les zones tactiles sur mobile */
+      .nav-item {
+        padding: 14px 16px;
+        font-size: 14px;
+      }
+      
+      .action-icon-btn {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .notif-bell-btn {
+        width: 44px;
+        height: 44px;
+      }
+      
+      .role-pill-btn {
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       BARRE D'ÉTAT DE SESSION & AUTHENTIFICATION
+       ============================================================ -->
+  <div class="role-switcher-banner" id="globalTopBanner" style="display: flex; justify-content: space-between; align-items: center; background: #060e20; padding: 7px 24px; position: sticky; top: 0; z-index: 1000;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+      <span style="color: #94a3b8; font-size: 11.5px;">Session active :</span>
+      <strong id="connectedUserBadge" style="color: #38bdf8; font-size: 12px;">Non connecté</strong>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="role-pill-btn" id="logoutTopBtn" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4);" onclick="logoutUser()">
+        <i class="fa-solid fa-power-off"></i> Déconnexion
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       STANDALONE VIEW: LANDING PAGE
+       ============================================================ -->
+  <div id="view-landing" class="landing-page-wrap">
+    <header style="height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid var(--border-color); background: #ffffff;">
+      <div style="display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 800; color: var(--primary-navy);">
+        <div class="brand-logo-wrap" style="width: 40px; height: 40px; margin-bottom: 0;">
+          <i class="fa-solid fa-gear" style="font-size: 18px;"></i>
+        </div>
+        <span>TECHNOVA</span>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn-quick-outline" onclick="switchView('view-login'); switchAuthTab('login');">
+          <i class="fa-solid fa-right-to-bracket"></i> Accéder à l'application
+        </button>
+        <button class="btn-quick-outline" style="border-color: var(--electric-blue); color: var(--electric-blue);" onclick="switchView('view-login'); switchAuthTab('register');">
+          <i class="fa-solid fa-user-plus"></i> Inscription Client
+        </button>
+        <button class="btn-quick-primary" onclick="switchView('view-login'); switchAuthTab('login');">
+          <i class="fa-solid fa-right-to-bracket"></i> Connexion
+        </button>
+      </div>
+    </header>
+
+    <section style="padding: 60px 40px; text-align: center; max-width: 900px; margin: 0 auto;">
+      <span style="background: #e0f2fe; color: #0284c7; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+        AFRICAN BUSINESS INVEST SARL &bull; SaaS Maintenance
+      </span>
+      <h1 style="font-size: 42px; font-weight: 800; color: var(--primary-navy); margin: 20px 0 16px; line-height: 1.2;">
+        La technologie au service de vos interventions techniques
+      </h1>
+      <p style="font-size: 16px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px;">
+        Une plateforme unique interconnectant <strong>l'Administrateur</strong>, le <strong>Responsable Technique</strong>, le <strong>Technicien terrain</strong> et le <strong>Client demandeur</strong> autour d'une base de données synchronisée en temps réel.
+      </p>
+
+      <!-- Cartes d'accès par rôle — Design Premium -->
+      <style>
+        .role-cards-wrap {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 20px;
+          margin-bottom: 50px;
+          text-align: left;
+        }
+        .role-card {
+          position: relative;
+          border-radius: 24px;
+          padding: 28px 24px 24px;
+          cursor: pointer;
+          overflow: hidden;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1.4), box-shadow 0.35s ease;
+          border: 1px solid rgba(255,255,255,0.12);
+        }
+        .role-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 100%);
+          pointer-events: none;
+          border-radius: inherit;
+        }
+        .role-card::after {
+          content: '';
+          position: absolute;
+          top: -80%; left: -80%;
+          width: 260%; height: 260%;
+          background: conic-gradient(from 0deg, transparent 70%, rgba(255,255,255,0.07) 85%, transparent 100%);
+          animation: shimmer-rotate 7s linear infinite;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        .role-card:hover::after { opacity: 1; }
+        .role-card:hover { transform: translateY(-10px) scale(1.025); }
+        .role-card-admin    { background: linear-gradient(145deg,#060f24 0%,#0f2d5e 100%); box-shadow: 0 8px 32px rgba(26,108,240,0.22); }
+        .role-card-resp     { background: linear-gradient(145deg,#011a0f 0%,#043d28 100%); box-shadow: 0 8px 32px rgba(0,210,132,0.18);  }
+        .role-card-tech     { background: linear-gradient(145deg,#180a02 0%,#3d1104 100%); box-shadow: 0 8px 32px rgba(249,115,22,0.20); }
+        .role-card-client   { background: linear-gradient(145deg,#180430 0%,#330659 100%); box-shadow: 0 8px 32px rgba(168,85,247,0.22); }
+        .role-card-admin:hover  { box-shadow: 0 22px 55px rgba(26,108,240,0.52),  0 0 0 1px rgba(96,165,250,0.45);  }
+        .role-card-resp:hover   { box-shadow: 0 22px 55px rgba(0,210,132,0.48),   0 0 0 1px rgba(52,211,153,0.45);  }
+        .role-card-tech:hover   { box-shadow: 0 22px 55px rgba(249,115,22,0.48),  0 0 0 1px rgba(251,146,60,0.45);  }
+        .role-card-client:hover { box-shadow: 0 22px 55px rgba(168,85,247,0.52),  0 0 0 1px rgba(192,132,252,0.45); }
+
+        .rc-top-line {
+          position: absolute;
+          top: 0; left: 20px; right: 20px;
+          height: 3px; border-radius: 0 0 6px 6px;
+        }
+        .role-card-admin    .rc-top-line { background: linear-gradient(90deg,#1a6cf0,#38bdf8); }
+        .role-card-resp     .rc-top-line { background: linear-gradient(90deg,#00d284,#34d399); }
+        .role-card-tech     .rc-top-line { background: linear-gradient(90deg,#f97316,#fb923c); }
+        .role-card-client   .rc-top-line { background: linear-gradient(90deg,#a855f7,#c084fc); }
+
+        .rc-icon-wrap {
+          width: 56px; height: 56px;
+          border-radius: 18px;
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 18px;
+          font-size: 26px;
+          position: relative; z-index: 1;
+          transition: transform 0.3s ease;
+        }
+        .role-card:hover .rc-icon-wrap { transform: scale(1.1) rotate(-4deg); }
+        .role-card-admin    .rc-icon-wrap { background: rgba(96,165,250,0.15);  border: 1px solid rgba(96,165,250,0.3);  box-shadow: 0 4px 16px rgba(96,165,250,0.2);  }
+        .role-card-resp     .rc-icon-wrap { background: rgba(52,211,153,0.15);  border: 1px solid rgba(52,211,153,0.3);  box-shadow: 0 4px 16px rgba(52,211,153,0.2);  }
+        .role-card-tech     .rc-icon-wrap { background: rgba(251,146,60,0.15);  border: 1px solid rgba(251,146,60,0.3);  box-shadow: 0 4px 16px rgba(251,146,60,0.2);  }
+        .role-card-client   .rc-icon-wrap { background: rgba(192,132,252,0.15); border: 1px solid rgba(192,132,252,0.3); box-shadow: 0 4px 16px rgba(192,132,252,0.2); }
+
+        .rc-badge {
+          position: absolute; top: 20px; right: 18px;
+          font-size: 9.5px; font-weight: 800; letter-spacing: 1px;
+          padding: 4px 11px; border-radius: 20px;
+          text-transform: uppercase; z-index: 1;
+        }
+        .role-card-admin    .rc-badge { background: rgba(96,165,250,0.15);  color: #93c5fd; border: 1px solid rgba(96,165,250,0.25);  }
+        .role-card-resp     .rc-badge { background: rgba(52,211,153,0.15);  color: #6ee7b7; border: 1px solid rgba(52,211,153,0.25);  }
+        .role-card-tech     .rc-badge { background: rgba(251,146,60,0.15);  color: #fdba74; border: 1px solid rgba(251,146,60,0.25);  }
+        .role-card-client   .rc-badge { background: rgba(192,132,252,0.15); color: #d8b4fe; border: 1px solid rgba(192,132,252,0.25); }
+
+        .rc-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 5px; letter-spacing: -0.3px; position: relative; z-index: 1; }
+        .rc-desc  { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.55; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        .rc-features { list-style: none; padding: 0; margin: 0 0 22px; position: relative; z-index: 1; }
+        .rc-features li { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: rgba(255,255,255,0.45); margin-bottom: 7px; }
+        .rc-feat-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        .role-card-admin    .rc-feat-dot { background: #60a5fa; box-shadow: 0 0 6px #60a5fa; }
+        .role-card-resp     .rc-feat-dot { background: #34d399; box-shadow: 0 0 6px #34d399; }
+        .role-card-tech     .rc-feat-dot { background: #fb923c; box-shadow: 0 0 6px #fb923c; }
+        .role-card-client   .rc-feat-dot { background: #c084fc; box-shadow: 0 0 6px #c084fc; }
+
+        .rc-cta {
+          display: inline-flex; align-items: center; gap: 8px;
+          font-size: 12px; font-weight: 700;
+          padding: 10px 20px; border-radius: 12px;
+          border: none; cursor: pointer;
+          transition: all 0.25s ease;
+          position: relative; z-index: 1; letter-spacing: 0.3px;
+          width: 100%; justify-content: center;
+        }
+        .rc-cta i { transition: transform 0.25s ease; }
+        .role-card:hover .rc-cta i { transform: translateX(5px); }
+        .role-card-admin    .rc-cta { background: rgba(96,165,250,0.18);  color: #93c5fd; border: 1px solid rgba(96,165,250,0.35);  }
+        .role-card-resp     .rc-cta { background: rgba(52,211,153,0.18);  color: #6ee7b7; border: 1px solid rgba(52,211,153,0.35);  }
+        .role-card-tech     .rc-cta { background: rgba(251,146,60,0.18);  color: #fdba74; border: 1px solid rgba(251,146,60,0.35);  }
+        .role-card-client   .rc-cta { background: rgba(192,132,252,0.18); color: #d8b4fe; border: 1px solid rgba(192,132,252,0.35); }
+        .role-card:hover .rc-cta { filter: brightness(1.2); }
+
+        @keyframes shimmer-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes card-entry { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+        .role-card { animation: card-entry 0.55s cubic-bezier(.22,.68,0,1.1) both; }
+        .role-card:nth-child(1) { animation-delay: 0.05s; }
+        .role-card:nth-child(2) { animation-delay: 0.15s; }
+        .role-card:nth-child(3) { animation-delay: 0.25s; }
+        .role-card:nth-child(4) { animation-delay: 0.35s; }
+      </style>
+
+      <div class="role-cards-wrap">
+
+        <!-- ADMINISTRATEUR -->
+        <div class="role-card role-card-admin" onclick="switchView('view-login'); switchAuthTab('login'); showToast('Connectez-vous avec votre compte Administrateur');">
+          <div class="rc-top-line"></div>
+          <span class="rc-badge">Admin</span>
+          <div class="rc-icon-wrap">👑</div>
+          <div class="rc-title">Administrateur</div>
+          <div class="rc-desc">Contrôle total de la plateforme TECHNOVA</div>
+          <ul class="rc-features">
+            <li><span class="rc-feat-dot"></span>Tableau de bord global</li>
+            <li><span class="rc-feat-dot"></span>Gestion utilisateurs &amp; rôles</li>
+            <li><span class="rc-feat-dot"></span>Rapports &amp; statistiques</li>
+          </ul>
+          <button class="rc-cta">Accéder à mon espace <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <!-- RESPONSABLE TECHNIQUE -->
+        <div class="role-card role-card-resp" onclick="switchView('view-login'); switchAuthTab('login'); showToast('Connectez-vous avec votre compte Responsable Technique');">
+          <div class="rc-top-line"></div>
+          <span class="rc-badge">Supervision</span>
+          <div class="rc-icon-wrap">🎧</div>
+          <div class="rc-title">Resp. Technique</div>
+          <div class="rc-desc">Coordonnez toutes les interventions terrain</div>
+          <ul class="rc-features">
+            <li><span class="rc-feat-dot"></span>Affectation des techniciens</li>
+            <li><span class="rc-feat-dot"></span>Tickets en attente</li>
+            <li><span class="rc-feat-dot"></span>Planification &amp; calendrier</li>
+          </ul>
+          <button class="rc-cta">Accéder à mon espace <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <!-- TECHNICIEN -->
+        <div class="role-card role-card-tech" onclick="switchView('view-login'); switchAuthTab('login'); showToast('Connectez-vous avec votre compte Technicien');">
+          <div class="rc-top-line"></div>
+          <span class="rc-badge">Terrain</span>
+          <div class="rc-icon-wrap">🔧</div>
+          <div class="rc-title">Technicien</div>
+          <div class="rc-desc">Vos missions terrain en temps réel</div>
+          <ul class="rc-features">
+            <li><span class="rc-feat-dot"></span>Mes missions du jour</li>
+            <li><span class="rc-feat-dot"></span>Mise à jour des statuts</li>
+            <li><span class="rc-feat-dot"></span>Notifications &amp; alertes</li>
+          </ul>
+          <button class="rc-cta">Accéder à mon espace <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <!-- CLIENT ABI -->
+        <div class="role-card role-card-client" onclick="switchView('view-login'); switchAuthTab('login'); showToast('Connectez-vous ou créez votre compte Client');">
+          <div class="rc-top-line"></div>
+          <span class="rc-badge">Client</span>
+          <div class="rc-icon-wrap">🏢</div>
+          <div class="rc-title">Client ABI</div>
+          <div class="rc-desc">Déclarez et suivez vos demandes</div>
+          <ul class="rc-features">
+            <li><span class="rc-feat-dot"></span>Soumettre un incident</li>
+            <li><span class="rc-feat-dot"></span>Suivi en temps réel</li>
+            <li><span class="rc-feat-dot"></span>Historique de vos tickets</li>
+          </ul>
+          <button class="rc-cta">Accéder à mon espace <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1100&q=80" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);" alt="TECHNOVA Preview">
+    </section>
+  </div>
+
+
+  <!-- ============================================================
+       STANDALONE VIEW: CONNEXION & INSCRIPTION CLIENT
+       ============================================================ -->
+  <div id="view-login" class="login-page-wrap">
+    <div style="background: #ffffff; border-radius: 24px; padding: 32px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: center;">
+      <div class="brand-logo-wrap" style="margin: 0 auto 12px; width: 50px; height: 50px;">
+        <i class="fa-solid fa-gear" style="font-size: 22px;"></i>
+      </div>
+      <h2 style="font-size: 22px; font-weight: 800; color: var(--primary-navy); margin-bottom: 2px;">TECHNOVA</h2>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 18px;">AFRICAN BUSINESS INVEST SARL &bull; Espace Sécurisé</p>
+
+      <!-- Onglets Connexion / Inscription Client -->
+      <div style="display: flex; background: #f1f5f9; border-radius: 12px; padding: 4px; margin-bottom: 20px;">
+        <button id="tabBtnLogin" style="flex: 1; padding: 10px; border-radius: 9px; font-weight: 700; font-size: 13px; background: #ffffff; color: var(--primary-navy); box-shadow: 0 2px 6px rgba(0,0,0,0.06);" onclick="switchAuthTab('login')">
+          <i class="fa-solid fa-right-to-bracket"></i> Connexion
+        </button>
+        <button id="tabBtnRegister" style="flex: 1; padding: 10px; border-radius: 9px; font-weight: 700; font-size: 13px; background: transparent; color: var(--text-muted);" onclick="switchAuthTab('register')">
+          <i class="fa-solid fa-user-plus"></i> Inscription Client
+        </button>
+      </div>
+
+      <!-- FORMULAIRE 1 : CONNEXION -->
+      <div id="authLoginForm">
+        <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 18px; text-align: left;">
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 8px;">
+            Accès rapide de démonstration :
+          </span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button class="role-pill-btn" style="background: #eef2f6; color: var(--primary-navy); justify-content: center;" onclick="switchActiveRole('ADMIN')">
+              <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Admin
+            </button>
+            <button class="role-pill-btn" style="background: #eef2f6; color: var(--primary-navy); justify-content: center;" onclick="switchActiveRole('RESP_TECH')">
+              <i class="fa-solid fa-headset" style="color: var(--electric-blue);"></i> Resp. Tech
+            </button>
+            <button class="role-pill-btn" style="background: #eef2f6; color: var(--primary-navy); justify-content: center;" onclick="switchActiveRole('TECHNICIEN')">
+              <i class="fa-solid fa-wrench" style="color: var(--turquoise-dark);"></i> Technicien
+            </button>
+            <button class="role-pill-btn" style="background: #eef2f6; color: var(--primary-navy); justify-content: center;" onclick="switchActiveRole('CLIENT')">
+              <i class="fa-solid fa-building-user" style="color: #7a5af8;"></i> Client ABI
+            </button>
+          </div>
+        </div>
+
+        <form onsubmit="handleUserLogin(event)">
+          <div class="form-group" style="text-align: left;">
+            <label>Adresse Email Professionnelle</label>
+            <input type="email" id="loginEmailInput" class="form-control" value="onguiba.daniel@african-invest.cm" required>
+          </div>
+          <div class="form-group" style="text-align: left;">
+            <label>Mot de passe</label>
+            <input type="password" id="loginPasswordInput" class="form-control" value="Password123!" required>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 12px;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" checked> Se souvenir de moi
+            </label>
+            <a href="#" style="color: var(--electric-blue); font-weight: 600;">Mot de passe oublié ?</a>
+          </div>
+          <button type="submit" class="btn-quick-primary" style="width: 100%; padding: 12px; font-size: 14px;">
+            <i class="fa-solid fa-right-to-bracket"></i> Se connecter
+          </button>
+        </form>
+
+        <p style="margin-top: 18px; font-size: 12.5px; color: var(--text-muted);">
+          Nouveau demandeur ou client ? 
+          <a href="#" style="color: var(--electric-blue); font-weight: 700;" onclick="switchAuthTab('register')">Créez votre compte ici</a>
+        </p>
+      </div>
+
+      <!-- FORMULAIRE 2 : INSCRIPTION CLIENT (OBLIGATOIRE AVANT CONNEXION) -->
+      <div id="authRegisterForm" style="display: none; text-align: left;">
+        <div style="background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #0369a1; display: flex; align-items: flex-start; gap: 8px;">
+          <i class="fa-solid fa-circle-info" style="font-size: 15px; margin-top: 2px;"></i>
+          <span>L'inscription est <strong>obligatoire</strong> pour tous les clients et demandeurs afin de pouvoir déclarer et suivre des interventions techniques.</span>
+        </div>
+
+        <form onsubmit="handleClientRegister(event)">
+          <div class="form-group">
+            <label>Nom & Prénom complet <span style="color: var(--red-accent);">*</span></label>
+            <input type="text" id="regFullName" class="form-control" placeholder="Ex: Alain Fogue" required>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label>Département / Service <span style="color: var(--red-accent);">*</span></label>
+              <select id="regDepartment" class="form-control" required>
+                <option value="Direction Commerciale">Direction Commerciale</option>
+                <option value="Direction Financière & Comptabilité">Direction Financière & Comptabilité</option>
+                <option value="Ressources Humaines">Ressources Humaines</option>
+                <option value="Logistique & Exploitation">Logistique & Exploitation</option>
+                <option value="Cabinet Conseil Partenaire">Cabinet Conseil Partenaire</option>
+                <option value="Autre Service Demandeur">Autre Service Demandeur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Numéro de Téléphone</label>
+              <input type="tel" id="regPhone" class="form-control" placeholder="+237 690 00 00 00">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Adresse Email professionnelle <span style="color: var(--red-accent);">*</span></label>
+            <input type="email" id="regEmail" class="form-control" placeholder="nom.prenom@african-invest.cm" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label>Mot de passe <span style="color: var(--red-accent);">*</span></label>
+              <input type="password" id="regPassword" class="form-control" placeholder="Min. 6 caractères" required minlength="6">
+            </div>
+            <div class="form-group">
+              <label>Confirmer mot de passe <span style="color: var(--red-accent);">*</span></label>
+              <input type="password" id="regPasswordConfirm" class="form-control" placeholder="Répéter mot de passe" required minlength="6">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 11.5px; color: var(--text-muted); cursor: pointer;">
+              <input type="checkbox" required style="margin-top: 3px;">
+              <span>Je certifie appartenir à AFRICAN BUSINESS INVEST SARL ou être client partenaire autorisé.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-success" style="width: 100%; padding: 13px; font-size: 14px;">
+            <i class="fa-solid fa-user-check"></i> Créer mon compte Client & Accéder au Portail
+          </button>
+        </form>
+
+        <p style="margin-top: 16px; font-size: 12.5px; color: var(--text-muted); text-align: center;">
+          Déjà inscrit ? 
+          <a href="#" style="color: var(--electric-blue); font-weight: 700;" onclick="switchAuthTab('login')">Connectez-vous ici</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       APPLICATION PRINCIPALE MULTI-RÔLES
+       ============================================================ -->
+  <div id="main-app" class="app-container">
+    
+    <!-- OVERLAY SIDEBAR MOBILE -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-wrap">
+          <i class="fa-solid fa-gear" style="transform: rotate(20deg);"></i>
+        </div>
+        <div class="brand-title">TECHNOVA</div>
+        <div class="brand-subtitle">La technologie au service de vos interventions</div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="nav-category" id="navRoleTitle">MODULES PRINCIPAUX</div>
+        
+        <!-- Standard Nav Items -->
+        <div class="nav-item active" id="nav-item-dashboard" data-target="view-dashboard" onclick="navigateTo('view-dashboard', this)">
+          <i class="fa-solid fa-house"></i>
+          <span>Tableau de bord</span>
+        </div>
+        <div class="nav-item" id="nav-item-resp" data-target="view-resp-technique" onclick="navigateTo('view-resp-technique', this)">
+          <i class="fa-solid fa-headset"></i>
+          <span>Supervision & Affectation</span>
+        </div>
+        <div class="nav-item" id="nav-item-tech" data-target="view-technicien" onclick="navigateTo('view-technicien', this)">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span>Missions Technicien</span>
+        </div>
+        <div class="nav-item" id="nav-item-client" data-target="view-client" onclick="navigateTo('view-client', this)">
+          <i class="fa-solid fa-ticket"></i>
+          <span>Portail Demandeur</span>
+        </div>
+
+        <div id="sidebarNavMgmtSection">
+          <div class="nav-category">GESTION COMPLÈTE</div>
+          <div class="nav-item" data-target="view-interventions" onclick="navigateTo('view-interventions', this)">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Mes Interventions</span>
+          </div>
+          <div class="nav-item" data-target="view-planification" onclick="navigateTo('view-planification', this)">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Planification</span>
+          </div>
+          <div class="nav-item" data-target="view-techniciens" onclick="navigateTo('view-techniciens', this)">
+            <i class="fa-solid fa-user-group"></i>
+            <span>Techniciens</span>
+          </div>
+          <div class="nav-item" data-target="view-equipements" onclick="navigateTo('view-equipements', this)">
+            <i class="fa-solid fa-truck-pickup"></i>
+            <span>Équipements</span>
+          </div>
+          <div class="nav-item" data-target="view-rapports" onclick="navigateTo('view-rapports', this)">
+            <i class="fa-solid fa-file-lines"></i>
+            <span>Rapports</span>
+          </div>
+          <div class="nav-item" data-target="view-utilisateurs" onclick="navigateTo('view-utilisateurs', this)">
+            <i class="fa-solid fa-users"></i>
+            <span>Utilisateurs</span>
+          </div>
+          <div class="nav-item" data-target="view-parametres" onclick="navigateTo('view-parametres', this)">
+            <i class="fa-solid fa-gear"></i>
+            <span>Paramètres</span>
+          </div>
+        </div>
+        
+        <div class="nav-item" style="color: #f87171; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;" onclick="logoutUser()">
+          <i class="fa-solid fa-power-off"></i>
+          <span>Déconnexion</span>
+        </div>
+      </nav>
+
+      <!-- Sidebar Promo Rocket Card (Exact matching reference image) -->
+      <div class="sidebar-bottom-card">
+        <div class="rocket-icon">
+          <i class="fa-solid fa-rocket"></i>
+        </div>
+        <p>Une gestion plus intelligente, une entreprise plus performante !</p>
+        <button class="sidebar-bottom-btn" onclick="openModal('modal-new-intervention')">
+          TECHNOVA
+        </button>
+      </div>
+    </aside>
+
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOPBAR (EXACT MATCHING IMAGE) -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-nav-toggle" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          
+          <div class="company-badge">
+            <div class="company-icon-box">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div>
+              <span class="company-name">AFRICAN BUSINESS INVEST SARL</span>
+              <span class="company-divider">|</span>
+              <span class="company-subname" id="topbarSubtitle">Gestion des Interventions Techniques</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="notif-bell-btn" onclick="showNotificationPanel()" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notif-badge" id="notifBadgeCount" style="display:none">0</span>
+          </button>
+
+          <button class="btn-quick-outline" style="padding: 7px 12px; font-size: 11.5px; color: #dc2626; border-color: #fecaca; background: #fff5f5;" onclick="logoutUser()" title="Se déconnecter">
+            <i class="fa-solid fa-power-off"></i> <span>Déconnexion</span>
+          </button>
+
+          <div class="user-profile-header" onclick="logoutUser()" title="Cliquer pour se déconnecter">
+            <img class="user-avatar-top" id="topAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar">
+            <div>
+              <span class="user-name-top" id="topUserName">Onguiba Boutna Daniel</span>
+              <span class="user-role-top" id="topUserRole">Administrateur</span>
+            </div>
+            <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: #94a3b8; margin-left: 4px;"></i>
+          </div>
+        </div>
+      </header>
+
+
+      <!-- ============================================================
+           INTERFACE ORIGINALE: TABLEAU DE BORD (DASHBOARD IMAGE EXACTE)
+           ============================================================ -->
+      <div id="view-dashboard" class="view-content active-view">
+        
+        <!-- Hero Welcome Banner -->
+        <div class="dashboard-hero">
+          <div class="hero-content">
+            <h1 class="hero-title">Bienvenue sur <span>TECHNOVA !</span></h1>
+            <p class="hero-desc">Gérez, planifiez et suivez toutes vos interventions techniques en toute simplicité.</p>
+            <button class="hero-btn" onclick="navigateTo('view-interventions')">
+              <i class="fa-solid fa-play" style="font-size: 10px;"></i> Découvrir la plateforme
+            </button>
+          </div>
+          <div class="hero-image-wrap">
+            <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80" alt="Technicien casqué armoire électrique">
+          </div>
+        </div>
+
+        <!-- 4 KPI Stat Cards -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon-circle blue">
+              <i class="fa-regular fa-calendar-days"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num-row">
+                <span class="stat-value" id="kpi-total">125</span>
+                <span class="stat-tag green-text"><i class="fa-solid fa-arrow-up"></i> +12%</span>
+              </div>
+              <div class="stat-title">Demandes Totales</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-circle green">
+              <i class="fa-solid fa-play" style="font-size: 18px; margin-left: 2px;"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num-row">
+                <span class="stat-value" id="kpi-encours">18</span>
+                <span class="stat-tag green-text"><i class="fa-solid fa-arrow-up"></i> +8%</span>
+              </div>
+              <div class="stat-title">En Cours</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-circle orange">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num-row">
+                <span class="stat-value" id="kpi-attente">32</span>
+                <span class="stat-tag orange-text"><i class="fa-solid fa-arrow-up"></i> +5%</span>
+              </div>
+              <div class="stat-title">En Attente</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-circle emerald">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num-row">
+                <span class="stat-value" id="kpi-terminees">75</span>
+                <span class="stat-tag green-text"><i class="fa-solid fa-arrow-up"></i> +15%</span>
+              </div>
+              <div class="stat-title">Terminées</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Row: Graphique Mensuel + Jauge + Actions -->
+        <div class="dashboard-middle-row">
+          <div class="card">
+            <div class="card-header-simple">
+              <div class="card-header-title">
+                <i class="fa-solid fa-chart-column" style="color: var(--electric-blue);"></i>
+                <span>Performances Mensuelles</span>
+              </div>
+              <div style="display: flex; gap: 14px; font-size: 12px; font-weight: 600; color: var(--text-muted);">
+                <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #1a6cf0;"></span> Demandes</span>
+                <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #00d284;"></span> Résolues</span>
+              </div>
+            </div>
+            <div class="chart-container-box">
+              <canvas id="monthlyPerformanceChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header-simple">
+              <div class="card-header-title">
+                <i class="fa-solid fa-trophy" style="color: #f59e0b;"></i>
+                <span>Taux de Résolution</span>
+              </div>
+            </div>
+            <div class="resolution-card-content">
+              <div class="gauge-wrap">
+                <canvas id="resolutionGaugeChart"></canvas>
+                <div class="gauge-text">
+                  <div class="gauge-percent">93%</div>
+                  <div class="gauge-status"><i class="fa-solid fa-arrow-trend-up"></i> Très bon !</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header-simple">
+              <div class="card-header-title">
+                <i class="fa-solid fa-bolt" style="color: var(--electric-blue);"></i>
+                <span>Actions Rapides</span>
+              </div>
+            </div>
+            <div class="quick-actions-list">
+              <button class="btn-quick-primary" onclick="openModal('modal-new-intervention')">
+                <i class="fa-solid fa-plus"></i> Nouvelle Demande
+              </button>
+              <button class="btn-quick-outline" onclick="navigateTo('view-planification')">
+                <i class="fa-regular fa-calendar-days"></i> Voir le Calendrier
+              </button>
+              <button class="btn-quick-outline" onclick="navigateTo('view-rapports')">
+                <i class="fa-solid fa-chart-pie"></i> Consulter les Rapports
+              </button>
+              <button class="btn-quick-outline" onclick="navigateTo('view-equipements')">
+                <i class="fa-solid fa-gear"></i> Gérer les Équipements
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Row: Dernières Interventions + Techniciens -->
+        <div class="dashboard-bottom-row">
+          <div class="card">
+            <div class="card-header-simple">
+              <div class="card-header-title">
+                <i class="fa-solid fa-clock-rotate-left" style="color: var(--electric-blue);"></i>
+                <span>Dernières Interventions</span>
+              </div>
+              <span class="link-more" onclick="navigateTo('view-interventions')">
+                Voir toutes les interventions <i class="fa-solid fa-arrow-right"></i>
+              </span>
+            </div>
+            
+            <div class="table-container">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th># Référence</th>
+                    <th>Équipement</th>
+                    <th>Technicien</th>
+                    <th>Priorité</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardInterventionsBody">
+                  <tr>
+                    <td class="ref-code">INT-2025-001</td>
+                    <td style="font-weight: 600;">Serveur Principal</td>
+                    <td>
+                      <div class="tech-cell">
+                        <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80">
+                        <span>Jean Mbarga</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-haute">Haute</span></td>
+                    <td><span class="badge badge-en-cours">En Cours</span></td>
+                    <td style="color: var(--text-muted); font-size: 12px;">27/10/2025 09:30</td>
+                    <td>
+                      <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-001', 'Serveur Principal', 'Jean Mbarga', 'Haute', 'En Cours', '27/10/2025 09:30', 'Alerte température rack B1')">
+                        <i class="fa-regular fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="ref-code">INT-2025-002</td>
+                    <td style="font-weight: 600;">Climatisation Bureaux</td>
+                    <td>
+                      <div class="tech-cell">
+                        <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80">
+                        <span>Paul Nguema</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-moyenne">Moyenne</span></td>
+                    <td><span class="badge badge-resolue">Résolue</span></td>
+                    <td style="color: var(--text-muted); font-size: 12px;">26/10/2025 16:45</td>
+                    <td>
+                      <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-002', 'Climatisation Bureaux', 'Paul Nguema', 'Moyenne', 'Résolue', '26/10/2025 16:45', 'Entretien et nettoyage filtres')">
+                        <i class="fa-regular fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="ref-code">INT-2025-003</td>
+                    <td style="font-weight: 600;">Réseau Internet</td>
+                    <td>
+                      <div class="tech-cell">
+                        <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80">
+                        <span>Marie Tchinda</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-basse">Basse</span></td>
+                    <td><span class="badge badge-en-attente">En Attente</span></td>
+                    <td style="color: var(--text-muted); font-size: 12px;">26/10/2025 14:20</td>
+                    <td>
+                      <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-003', 'Réseau Internet', 'Marie Tchinda', 'Basse', 'En Attente', '26/10/2025 14:20', 'Câblage bureau finance')">
+                        <i class="fa-regular fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="ref-code">INT-2025-004</td>
+                    <td style="font-weight: 600;">Groupe Électrogène</td>
+                    <td>
+                      <div class="tech-cell">
+                        <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80">
+                        <span>David Kamga</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-haute">Haute</span></td>
+                    <td><span class="badge badge-planifiee">Planifiée</span></td>
+                    <td style="color: var(--text-muted); font-size: 12px;">25/10/2025 11:15</td>
+                    <td>
+                      <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-004', 'Groupe Électrogène', 'David Kamga', 'Haute', 'Planifiée', '25/10/2025 11:15', 'Contrôle alternateur')">
+                        <i class="fa-regular fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header-simple">
+              <div class="card-header-title">
+                <i class="fa-solid fa-users" style="color: var(--electric-blue);"></i>
+                <span>Techniciens</span>
+              </div>
+              <span class="link-more" onclick="navigateTo('view-techniciens')">
+                Voir l'équipe <i class="fa-solid fa-arrow-right"></i>
+              </span>
+            </div>
+
+            <div class="technicians-list">
+              <div class="tech-item-row">
+                <img class="tech-img-large" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Jean">
+                <div class="tech-item-info">
+                  <div class="tech-item-name">
+                    <span>Jean Mbarga</span>
+                    <span class="tech-rate-val">100%</span>
+                  </div>
+                  <div class="tech-status-dot">
+                    <span class="dot-online"></span> Disponible
+                  </div>
+                  <div class="tech-progress-bar-bg">
+                    <div class="tech-progress-bar-fill" style="width: 100%; background-color: var(--turquoise);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tech-item-row">
+                <img class="tech-img-large" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Paul">
+                <div class="tech-item-info">
+                  <div class="tech-item-name">
+                    <span>Paul Nguema</span>
+                    <span class="tech-rate-val">75%</span>
+                  </div>
+                  <div class="tech-status-dot">
+                    <span class="dot-busy"></span> En intervention
+                  </div>
+                  <div class="tech-progress-bar-bg">
+                    <div class="tech-progress-bar-fill" style="width: 75%; background-color: var(--orange-accent);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tech-item-row">
+                <img class="tech-img-large" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" alt="Marie">
+                <div class="tech-item-info">
+                  <div class="tech-item-name">
+                    <span>Marie Tchinda</span>
+                    <span class="tech-rate-val">95%</span>
+                  </div>
+                  <div class="tech-status-dot">
+                    <span class="dot-online"></span> Disponible
+                  </div>
+                  <div class="tech-progress-bar-bg">
+                    <div class="tech-progress-bar-fill" style="width: 95%; background-color: var(--turquoise);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ============================================================
+           INTERFACE DÉDIÉE 1: RESPONSABLE TECHNIQUE
+           (Supervision, Dispatching, Affectation et Validation)
+           ============================================================ -->
+      <div id="view-resp-technique" class="view-content">
+        <div style="background: linear-gradient(135deg, #102144 0%, #1e3a6f 100%); color: #ffffff; padding: 24px; border-radius: var(--radius-lg); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <span style="background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;">ESPACE SUPERVISION</span>
+            <h2 style="font-size: 22px; font-weight: 800; margin: 8px 0 4px;">Cockpit du Responsable Technique</h2>
+            <p style="font-size: 13px; color: #cbd5e1;">Consultez les demandes entrantes, planifiez les interventions et affectez les techniciens selon leur charge.</p>
+          </div>
+          <button class="btn-quick-primary" onclick="openModal('modal-new-intervention')">
+            <i class="fa-solid fa-plus"></i> Affecter une intervention
+          </button>
+        </div>
+
+        <!-- 3 Supervision KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 24px;">
+          <div class="card" style="border-left: 4px solid var(--orange-accent);">
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Demandes à affecter</div>
+            <div style="font-size: 28px; font-weight: 800; color: var(--primary-navy); margin-top: 6px;" id="respUnassignedCount">4</div>
+            <div style="font-size: 11.5px; color: var(--orange-accent); margin-top: 4px; font-weight: 600;"><i class="fa-solid fa-clock"></i> 2 demandes urgentes</div>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--electric-blue);">
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Techniciens sur le terrain</div>
+            <div style="font-size: 28px; font-weight: 800; color: var(--primary-navy); margin-top: 6px;">3 / 4</div>
+            <div style="font-size: 11.5px; color: #059669; margin-top: 4px; font-weight: 600;"><i class="fa-solid fa-check"></i> Jean M. disponible immédiatement</div>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--turquoise);">
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Rapports en attente de visa</div>
+            <div style="font-size: 28px; font-weight: 800; color: var(--primary-navy); margin-top: 6px;">2</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; font-weight: 600;">À valider pour clôture client</div>
+          </div>
+        </div>
+
+        <!-- Dispatch Board (2 columns: Demandes en attente d'affectation VS Interventions actives) -->
+        <div class="dispatch-board">
+          <!-- Left: Pending Triage & Assignment -->
+          <div>
+            <div class="dispatch-column-header">
+              <span><i class="fa-solid fa-inbox" style="color: var(--orange-accent); margin-right: 6px;"></i> Demandes entrantes (À affecter)</span>
+              <span class="badge badge-en-attente">4 en attente</span>
+            </div>
+
+            <!-- Demandes en attente: chargées dynamiquement depuis la DB -->
+            <div id="respPendingTicketsList" style="min-height:80px">
+              <div style="text-align:center;padding:24px;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Chargement des demandes...</div>
+            </div>
+
+            <!-- Ticket 1 -->
+            <div class="dispatch-ticket-card" style="display:none">
+              <div class="dispatch-ticket-header">
+                <span class="ref-code">DEM-2025-104</span>
+                <span class="badge badge-haute">Haute priorité</span>
+              </div>
+              <div class="dispatch-ticket-title">Arrêt intempestif Climatisation Salle Réunion A</div>
+              <div class="dispatch-ticket-meta">
+                <span><i class="fa-regular fa-building"></i> Étage 2 - Direction</span>
+                <span><i class="fa-regular fa-user"></i> Mme. Biyaga (Comptabilité)</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-quick-primary" style="flex: 1; padding: 8px 12px; font-size: 12px;" onclick="quickAssignTicket('DEM-2025-104', 'Climatisation Salle Réunion A')">
+                  <i class="fa-solid fa-user-plus"></i> Affecter à un technicien
+                </button>
+                <button class="btn-quick-outline" style="padding: 8px 12px; font-size: 12px;" onclick="showToast('Détails complets de la demande inspectés')">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ticket 2 -->
+            <div class="dispatch-ticket-card" style="display:none">
+              <div class="dispatch-ticket-header">
+                <span class="ref-code">DEM-2025-105</span>
+                <span class="badge badge-moyenne">Moyenne</span>
+              </div>
+              <div class="dispatch-ticket-title">Remplacement cartouche groupe électrogène</div>
+              <div class="dispatch-ticket-meta">
+                <span><i class="fa-regular fa-building"></i> Zone Technique</span>
+                <span><i class="fa-regular fa-user"></i> M. Kamto (Services Généraux)</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-quick-primary" style="flex: 1; padding: 8px 12px; font-size: 12px;" onclick="quickAssignTicket('DEM-2025-105', 'Groupe électrogène')">
+                  <i class="fa-solid fa-user-plus"></i> Affecter à un technicien
+                </button>
+                <button class="btn-quick-outline" style="padding: 8px 12px; font-size: 12px;" onclick="showToast('Détails inspectés')">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Supervision active des techniciens -->
+          <div>
+            <div class="dispatch-column-header">
+              <span><i class="fa-solid fa-users-gear" style="color: var(--electric-blue); margin-right: 6px;"></i> Disponibilité & Suivi des Techniciens</span>
+              <span style="font-size: 12px; color: var(--text-muted);">Mise à jour direct</span>
+            </div>
+
+            <div class="card" style="margin-bottom: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" style="width: 36px; height: 36px; border-radius: 50%;">
+                  <div>
+                    <strong style="font-size: 13.5px; display: block;">Jean Mbarga</strong>
+                    <span style="font-size: 11px; color: #059669; font-weight: 700;">● Disponible (Charge 0%)</span>
+                  </div>
+                </div>
+                <button class="btn-quick-outline" style="padding: 6px 12px; font-size: 11px;" onclick="showToast('Ordre de mission envoyé à Jean Mbarga')">
+                  Affecter mission
+                </button>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted);">Dernière intervention terminée : <em>INT-2025-001 (Serveur Principal)</em> à 10:15.</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" style="width: 36px; height: 36px; border-radius: 50%;">
+                  <div>
+                    <strong style="font-size: 13.5px; display: block;">Paul Nguema</strong>
+                    <span style="font-size: 11px; color: var(--orange-accent); font-weight: 700;">● En intervention sur site (75%)</span>
+                  </div>
+                </div>
+                <button class="btn-quick-outline" style="padding: 6px 12px; font-size: 11px;" onclick="showToast('Position GPS et statut demandés à Paul')">
+                  Localiser
+                </button>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted);">En cours sur : <em>Climatisation Bureaux</em> depuis 45 min.</p>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width: 36px; height: 36px; border-radius: 50%;">
+                  <div>
+                    <strong style="font-size: 13.5px; display: block;">Marie Tchinda</strong>
+                    <span style="font-size: 11px; color: #059669; font-weight: 700;">● Disponible (Charge 20%)</span>
+                  </div>
+                </div>
+                <button class="btn-quick-outline" style="padding: 6px 12px; font-size: 11px;" onclick="showToast('Mission affectée à Marie Tchinda')">
+                  Affecter mission
+                </button>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted);">Planning : Prochaine maintenance à 14h20 (Réseau Internet).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================================================
+           INTERFACE DÉDIÉE 2: TECHNICIEN TERRAIN (MOBILE SMARTPHONE EXPERIENCE)
+           ============================================================ -->
+      <div id="view-technicien" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h2 style="font-size: 22px; font-weight: 800; color: var(--primary-navy);">Interface Technicien de Terrain</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Vue mobile adaptée aux interventions sur site : gestion des missions, photos, chronomètre et rapport digital.</p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-quick-outline" onclick="showToast('Mode hors-ligne synchronisé avec succès')"><i class="fa-solid fa-wifi"></i> En ligne</button>
+          </div>
+        </div>
+
+        <!-- Smartphone Container -->
+        <div class="tech-mobile-container">
+          <div class="tech-mobile-notch"></div>
+          
+          <div class="tech-mobile-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #ffffff;">
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 800;">Jean Mbarga</h4>
+                  <span style="font-size: 11px; color: #a5b4fc;"><i class="fa-solid fa-circle" style="color: #4ade80; font-size: 8px;"></i> En service actif</span>
+                </div>
+              </div>
+              <button class="badge badge-resolue" style="border: none; padding: 6px 12px; cursor: pointer;">
+                3 missions
+              </button>
+            </div>
+            <p style="font-size: 12px; color: #cbd5e1; margin: 0;">AFRICAN BUSINESS INVEST SARL &bull; Déploiement Terrain</p>
+          </div>
+
+          <div class="tech-mobile-body" id="techMobileBodyMissions">
+            
+            <!-- Active Ongoing Mission Card with Interactive Timer -->
+            <div class="tech-mission-card" style="border-top: 4px solid var(--electric-blue);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-en-cours">MISSION EN COURS</span>
+                <span class="ref-code">INT-2025-001</span>
+              </div>
+              <h3 style="font-size: 16px; font-weight: 800; color: var(--primary-navy); margin-bottom: 6px;">Serveur Principal Dell EMC</h3>
+              <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px;">
+                <i class="fa-solid fa-location-dot" style="color: var(--red-accent);"></i> Salle Serveurs B1 &bull; Panne surchauffe et remplacement ventilateur.
+              </p>
+
+              <!-- Chrono timer -->
+              <div class="tech-timer-display" id="chronoTimer">00:42:18</div>
+
+              <!-- Action steps for tech -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                <button class="btn-quick-outline" style="font-size: 11.5px; padding: 9px;" onclick="showToast('Appareil photo activé : photo ajoutée à la fiche')">
+                  <i class="fa-solid fa-camera"></i> Ajouter photo
+                </button>
+                <button class="btn-quick-outline" style="font-size: 11.5px; padding: 9px;" onclick="showToast('Pièce détachée ajoutée : Ventilateur Dell 120mm')">
+                  <i class="fa-solid fa-barcode"></i> Scanner pièce
+                </button>
+              </div>
+
+              <div class="form-group">
+                <label style="font-size: 11px;">Observations techniques :</label>
+                <textarea class="form-control" rows="2" style="font-size: 12px;" placeholder="Détails des réparations effectuées..."></textarea>
+              </div>
+
+              <button class="btn-success" style="width: 100%; justify-content: center; font-size: 13px;" onclick="completeTechMission('INT-2025-001')">
+                <i class="fa-solid fa-check-double"></i> Terminer & Signer le rapport
+              </button>
+            </div>
+
+            <!-- Next Scheduled Mission -->
+            <div class="tech-mission-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-planifiee">À SUIVRE (14:30)</span>
+                <span class="ref-code">INT-2025-008</span>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 700; color: var(--primary-navy);">Contrôle Baie Réseau Finance</h4>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+                <i class="fa-solid fa-location-dot" style="color: var(--electric-blue);"></i> Étage 3 - Direction Financière
+              </p>
+              <button class="btn-quick-outline" style="width: 100%; justify-content: center; font-size: 12px;" onclick="showToast('Itinéraire et contact client affichés')">
+                <i class="fa-solid fa-map-location-dot"></i> Voir l'itinéraire & détails
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================================================
+           INTERFACE DÉDIÉE 3: CLIENT / DEMANDEUR
+           (Portail des Déclarations, Suivi Temps Réel et Historique)
+           ============================================================ -->
+      <div id="view-client" class="view-content">
+        <!-- Client Hero -->
+        <div class="client-portal-hero">
+          <div>
+            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">ESPACE DEMANDEUR</span>
+            <h2 style="font-size: 24px; font-weight: 800; margin: 8px 0 4px;" id="clientPortalWelcomeTitle">Portail d'Assistance Technique</h2>
+            <p style="font-size: 13px; color: #cbd5e1;" id="clientPortalWelcomeSub">AFRICAN BUSINESS INVEST SARL &bull; Créez et suivez vos tickets en temps réel.</p>
+          </div>
+          <button class="btn-success" style="padding: 12px 24px; font-size: 14px;" onclick="openModal('modal-client-new-ticket')">
+            <i class="fa-solid fa-plus-circle"></i> Déclarer un incident
+          </button>
+        </div>
+
+        <!-- Live Status Tracker of Latest Request -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 16px;">
+            <div>
+              <span class="ref-code" style="font-size: 14px;">TICKET DEM-2025-104</span>
+              <h3 style="font-size: 17px; font-weight: 800; color: var(--primary-navy); margin-top: 4px;">Panne Climatisation Salle Réunion A</h3>
+            </div>
+            <span class="badge badge-en-cours" style="font-size: 12px; padding: 6px 14px;">Technicien en route</span>
+          </div>
+
+          <!-- Stepper Visualizer -->
+          <div class="stepper-tracker">
+            <div class="stepper-line">
+              <div class="stepper-line-fill" style="width: 66%;"></div>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-bubble completed"><i class="fa-solid fa-check"></i></div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--primary-navy);">1. Reçue</span>
+              <span style="font-size: 10px; color: var(--text-muted);">09:15</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-bubble completed"><i class="fa-solid fa-check"></i></div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--primary-navy);">2. Affectée</span>
+              <span style="font-size: 10px; color: var(--text-muted);">Jean M.</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-bubble current"><i class="fa-solid fa-truck-fast"></i></div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--electric-blue);">3. En cours</span>
+              <span style="font-size: 10px; color: var(--text-muted);">Sur place</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-bubble"><i class="fa-solid fa-flag-checkered"></i></div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">4. Clôturée</span>
+              <span style="font-size: 10px; color: var(--text-muted);">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- History of Client Tickets -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="padding: 18px 22px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--primary-navy);">Historique de vos demandes d'intervention</h3>
+            <button class="btn-quick-outline" style="padding: 6px 12px; font-size: 12px;" onclick="showToast('Historique complet actualisé')">
+              <i class="fa-solid fa-rotate-right"></i> Actualiser
+            </button>
+          </div>
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>N° Demande</th>
+                  <th>Équipement / Lieu</th>
+                  <th>Date</th>
+                  <th>Technicien</th>
+                  <th>Statut</th>
+                  <th>Rapport / Note</th>
+                </tr>
+              </thead>
+              <tbody id="clientHistoryTableBody">
+                <tr>
+                  <td class="ref-code">DEM-2025-098</td>
+                  <td style="font-weight: 700;">Imprimante Réseau RH</td>
+                  <td>22/10/2025</td>
+                  <td>Paul Nguema</td>
+                  <td><span class="badge badge-resolue">Résolue</span></td>
+                  <td><span style="color: #f59e0b;">★★★★★</span> (5/5)</td>
+                </tr>
+                <tr>
+                  <td class="ref-code">DEM-2025-084</td>
+                  <td style="font-weight: 700;">Prise Réseau Bureau 204</td>
+                  <td>15/10/2025</td>
+                  <td>Marie Tchinda</td>
+                  <td><span class="badge badge-resolue">Résolue</span></td>
+                  <td><span style="color: #f59e0b;">★★★★★</span> (5/5)</td>
+                </tr>
+                <tr>
+                  <td class="ref-code">DEM-2025-072</td>
+                  <td style="font-weight: 700;">Éclairage de Sécurité Escalier B</td>
+                  <td>04/10/2025</td>
+                  <td>David Kamga</td>
+                  <td><span class="badge badge-resolue">Résolue</span></td>
+                  <td><span style="color: #f59e0b;">★★★★☆</span> (4/5)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ============================================================
+           AUTRES INTERFACES DU SYSTÈME (INTERVENTIONS, CALENDRIER, ETC.)
+           ============================================================ -->
+      
+      <!-- VIEW: MES INTERVENTIONS -->
+      <div id="view-interventions" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Gestion Globale des Interventions</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Suivi centralisé pour AFRICAN BUSINESS INVEST SARL.</p>
+          </div>
+          <button class="btn-quick-primary" onclick="openModal('modal-new-intervention')">
+            <i class="fa-solid fa-plus"></i> Nouvelle Intervention
+          </button>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th># Référence</th>
+                  <th>Équipement</th>
+                  <th>Technicien</th>
+                  <th>Priorité</th>
+                  <th>Statut</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="interventionsFullListBody">
+                <tr>
+                  <td class="ref-code">INT-2025-001</td>
+                  <td style="font-weight: 700;">Serveur Principal Dell EMC</td>
+                  <td>
+                    <div class="tech-cell">
+                      <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80">
+                      <span>Jean Mbarga</span>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-haute">Haute</span></td>
+                  <td><span class="badge badge-en-cours">En Cours</span></td>
+                  <td style="color: var(--text-muted); font-size: 12.5px;">27/10/2025 09:30</td>
+                  <td>
+                    <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-001', 'Serveur Principal Dell EMC', 'Jean Mbarga', 'Haute', 'En Cours', '27/10/2025 09:30', 'Alerte température rack B1')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ref-code">INT-2025-002</td>
+                  <td style="font-weight: 700;">Climatisation Centrale Bureaux</td>
+                  <td>
+                    <div class="tech-cell">
+                      <img class="tech-mini-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80">
+                      <span>Paul Nguema</span>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-moyenne">Moyenne</span></td>
+                  <td><span class="badge badge-resolue">Résolue</span></td>
+                  <td style="color: var(--text-muted); font-size: 12.5px;">26/10/2025 16:45</td>
+                  <td>
+                    <button class="action-icon-btn" onclick="showInterventionDetail('INT-2025-002', 'Climatisation Bureaux', 'Paul Nguema', 'Moyenne', 'Résolue', '26/10/2025 16:45', 'Entretien et nettoyage filtres')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: PLANIFICATION -->
+      <div id="view-planification" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Planification & Calendrier</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Organisation des interventions dans le temps.</p>
+          </div>
+          <button class="btn-quick-primary" onclick="openModal('modal-new-intervention')"><i class="fa-solid fa-calendar-plus"></i> Planifier</button>
+        </div>
+        <div class="card" style="padding: 24px;">
+          <h3 style="margin-bottom: 16px; font-size: 17px; color: var(--primary-navy);">Calendrier de Maintenance &bull; Novembre 2026</h3>
+          <p style="color: var(--text-muted); font-size: 13px;">Tous les créneaux sont synchronisés avec les techniciens et les équipements.</p>
+        </div>
+      </div>
+
+      <!-- VIEW: TECHNICIENS -->
+      <div id="view-techniciens" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Équipe des Techniciens</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Suivi de l'ensemble du personnel d'intervention.</p>
+          </div>
+          <button class="btn-quick-primary" onclick="showToast('Formulaire ajout technicien ouvert')"><i class="fa-solid fa-user-plus"></i> Ajouter</button>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">Consultez les disponibilités détaillées dans l'espace Responsable Technique.</p>
+        </div>
+      </div>
+
+      <!-- VIEW: EQUIPEMENTS -->
+      <div id="view-equipements" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Parc des Équipements</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Inventaire des machines et installations d'AFRICAN BUSINESS INVEST SARL.</p>
+          </div>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">Gestion du cycle de vie des serveurs, groupes électrogènes et climatiseurs.</p>
+        </div>
+      </div>
+
+      <!-- VIEW: RAPPORTS -->
+      <div id="view-rapports" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Rapports & Statistiques</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Analyses de performance et conformité SLA.</p>
+          </div>
+          <button class="btn-quick-primary" onclick="showToast('Rapport PDF généré')"><i class="fa-solid fa-download"></i> Télécharger PDF</button>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">Taux de résolution global : <strong>93%</strong> (Très bon).</p>
+        </div>
+      </div>
+
+      <!-- VIEW: UTILISATEURS -->
+      <div id="view-utilisateurs" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Gestion des Utilisateurs & Rôles</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Administrateurs, Responsables Techniques, Techniciens et Clients.</p>
+          </div>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">Matrice d'habilitation selon le modèle de sécurité à 4 niveaux de TECHNOVA.</p>
+        </div>
+      </div>
+
+      <!-- VIEW: PARAMETRES -->
+      <div id="view-parametres" class="view-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-navy);">Paramètres de l'Application</h2>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Configurations entreprise et règles d'alerte.</p>
+          </div>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">AFRICAN BUSINESS INVEST SARL &bull; Système paramétré.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL: NOUVELLE INTERVENTION (ADMIN / RESPONSABLE)
+       ============================================================ -->
+  <div id="modal-new-intervention" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Créer & Affecter une Intervention</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-new-intervention')">&times;</button>
+      </div>
+      <form onsubmit="handleCreateIntervention(event)">
+        <div class="form-group">
+          <label>Équipement / Poste concerné</label>
+          <select class="form-control" id="modalEquipInput" required>
+            <option value="Serveur Principal Dell EMC">Serveur Principal Dell EMC</option>
+            <option value="Climatisation Salle Réunion">Climatisation Salle Réunion</option>
+            <option value="Groupe Électrogène 150kVA">Groupe Électrogène 150kVA</option>
+            <option value="Baie Réseau Étage 2">Baie Réseau Étage 2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Technicien à affecter</label>
+          <select class="form-control" id="modalTechInput" required>
+            <option value="Jean Mbarga">Jean Mbarga (Disponible 100%)</option>
+            <option value="Paul Nguema">Paul Nguema (En intervention 75%)</option>
+            <option value="Marie Tchinda">Marie Tchinda (Disponible 95%)</option>
+            <option value="David Kamga">David Kamga (Disponible 80%)</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label>Priorité</label>
+            <select class="form-control" id="modalPrioInput">
+              <option value="Haute">Haute</option>
+              <option value="Moyenne" selected>Moyenne</option>
+              <option value="Basse">Basse</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Statut</label>
+            <select class="form-control" id="modalStatInput">
+              <option value="En Cours">En Cours</option>
+              <option value="En Attente" selected>En Attente</option>
+              <option value="Planifiée">Planifiée</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description des consignes</label>
+          <textarea class="form-control" id="modalDescInput" rows="3" placeholder="Précisez les instructions pour le technicien..." required></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 18px;">
+          <button type="button" class="btn-quick-outline" onclick="closeModal('modal-new-intervention')">Annuler</button>
+          <button type="submit" class="btn-quick-primary">Affecter et notifier le technicien</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL: DÉCLARATION INCIDENT (CLIENT / DEMANDEUR)
+       ============================================================ -->
+  <div id="modal-client-new-ticket" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Déclarer un Incident Technique</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-client-new-ticket')">&times;</button>
+      </div>
+      <form onsubmit="handleClientTicketSubmit(event)">
+        <div class="form-group">
+          <label>Quel équipement ou service est en panne ?</label>
+          <input type="text" class="form-control" placeholder="Ex: Climatiseur Bureau 102, Imprimante, Connexion..." required>
+        </div>
+        <div class="form-group">
+          <label>Localisation précise</label>
+          <input type="text" class="form-control" placeholder="Ex: Bâtiment A - Étage 1" required>
+        </div>
+        <div class="form-group">
+          <label>Niveau d'urgence constaté</label>
+          <select class="form-control">
+            <option>Bloquant (Travail interrompu)</option>
+            <option selected>Gênant (Ralentissement de l'activité)</option>
+            <option>Mineur (Simple demande d'amélioration)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description du dysfonctionnement</label>
+          <textarea class="form-control" rows="3" placeholder="Que se passe-t-il exactement ?" required></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 18px;">
+          <button type="button" class="btn-quick-outline" onclick="closeModal('modal-client-new-ticket')">Annuler</button>
+          <button type="submit" class="btn-success">Envoyer la demande au Responsable</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL: DÉTAIL INTERVENTION
+       ============================================================ -->
+  <div id="modal-detail-intervention" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="detailModalRef">INT-2025-001</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-detail-intervention')">&times;</button>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;" id="detailModalBadges"></div>
+        <h4 id="detailModalEquip" style="font-size: 16px; color: var(--primary-navy); margin-bottom: 8px;"></h4>
+        <p id="detailModalDesc" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;"></p>
+      </div>
+      <div style="background: #f8fafc; padding: 14px; border-radius: 10px; font-size: 12.5px; display: flex; flex-direction: column; gap: 6px;">
+        <div><strong>Technicien en charge :</strong> <span id="detailModalTech"></span></div>
+        <div><strong>Date d'enregistrement :</strong> <span id="detailModalDate"></span></div>
+        <div><strong>Client :</strong> AFRICAN BUSINESS INVEST SARL</div>
+      </div>
+      <!-- Historique des actions -->
+      <div id="detailModalLogs" style="display:none;margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;max-height:160px;overflow-y:auto"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+        <button class="btn-quick-outline" onclick="closeModal('modal-detail-intervention')">Fermer</button>
+        <button class="btn-quick-primary" onclick="closeModal('modal-detail-intervention'); showToast('Intervention mise à jour')">
+          <i class="fa-solid fa-check"></i> Valider
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastMessage" class="toast">
+    <i class="fa-solid fa-circle-check" style="color: var(--turquoise);"></i>
+    <span id="toastText">Action effectuée</span>
+  </div>
+
+
+  <!-- ============================================================
+       JAVASCRIPT LOGIC
+       ============================================================ -->
+  <script>
+    // ÉTAT DE LA SESSION UTILISATEUR CONNECTÉ
+    let currentUser = null;
+
+    /**
+     * Applique les informations de l'utilisateur réellement connecté
+     * (Aucun compte fictif ou démo forcé)
+     */
+    function applyAuthenticatedSession(user) {
+      if (!user) return;
+      currentUser = user;
+      localStorage.setItem('technova_session', JSON.stringify(user));
+
+      // 1. Mettre à jour la bannière supérieure
+      const badge = document.getElementById('connectedUserBadge');
+      if (badge) {
+        badge.innerText = `${user.full_name} [${user.role === 'CLIENT' ? 'Client Demandeur' : user.role}]`;
+      }
+
+      // 2. Mettre à jour la barre supérieure (Topbar)
+      const topName = document.getElementById('topUserName');
+      if (topName) topName.innerText = user.full_name;
+
+      const topRole = document.getElementById('topUserRole');
+      if (topRole) {
+        topRole.innerText = user.role === 'CLIENT' ? `Client (${user.department || 'Demandeur'})` :
+                            user.role === 'ADMIN' ? 'Administrateur Général' :
+                            user.role === 'RESP_TECH' ? 'Responsable Technique' : 'Technicien';
+      }
+
+      const topAvatar = document.getElementById('topAvatarImg');
+      if (topAvatar) {
+        topAvatar.src = user.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80';
+      }
+
+      const subTitle = document.getElementById('topbarSubtitle');
+      if (subTitle) {
+        subTitle.innerText = user.role === 'CLIENT' ? 'Portail Demandeur & Déclarations' : 'Gestion des Interventions Techniques';
+      }
+
+      // 3. Adapter dynamiquement la barre latérale selon le rôle
+      const navRoleTitle = document.getElementById('navRoleTitle');
+      const navDashboard = document.getElementById('nav-item-dashboard');
+      const navResp = document.getElementById('nav-item-resp');
+      const navTech = document.getElementById('nav-item-tech');
+      const navClient = document.getElementById('nav-item-client');
+      const mgmtSection = document.getElementById('sidebarNavMgmtSection');
+
+      if (user.role === 'CLIENT') {
+        if (navRoleTitle) navRoleTitle.innerText = 'ESPACE DEMANDEUR';
+        if (navDashboard) navDashboard.style.display = 'none';
+        if (navResp) navResp.style.display = 'none';
+        if (navTech) navTech.style.display = 'none';
+        if (navClient) navClient.style.display = 'flex';
+        if (mgmtSection) mgmtSection.style.display = 'none';
+
+        // Personnalisation du Portail Client avec le vrai nom et département
+        const clientTitle = document.getElementById('clientPortalWelcomeTitle');
+        if (clientTitle) clientTitle.innerText = `Bienvenue, ${user.full_name} 👋`;
+
+        const clientSub = document.getElementById('clientPortalWelcomeSub');
+        if (clientSub) clientSub.innerText = `${user.department ? user.department + ' • ' : ''}Email : ${user.email} • Espace Client Personnel`;
+
+        switchView('main-app');
+        navigateTo('view-client');
+      } else if (user.role === 'RESP_TECH') {
+        if (navRoleTitle) navRoleTitle.innerText = 'SUPERVISION TECHNIQUE';
+        if (navDashboard) navDashboard.style.display = 'flex';
+        if (navResp) navResp.style.display = 'flex';
+        if (navTech) navTech.style.display = 'none';
+        if (navClient) navClient.style.display = 'none';
+        if (mgmtSection) mgmtSection.style.display = 'block';
+
+        switchView('main-app');
+        navigateTo('view-resp-technique');
+      } else if (user.role === 'TECHNICIEN') {
+        if (navRoleTitle) navRoleTitle.innerText = 'ESPACE TERRAIN';
+        if (navDashboard) navDashboard.style.display = 'none';
+        if (navResp) navResp.style.display = 'none';
+        if (navTech) navTech.style.display = 'flex';
+        if (navClient) navClient.style.display = 'none';
+        if (mgmtSection) mgmtSection.style.display = 'none';
+
+        switchView('main-app');
+        navigateTo('view-technicien');
+      } else { // ADMIN
+        if (navRoleTitle) navRoleTitle.innerText = 'ESPACE ADMINISTRATEUR';
+        if (navDashboard) navDashboard.style.display = 'flex';
+        if (navResp) navResp.style.display = 'flex';
+        if (navTech) navTech.style.display = 'flex';
+        if (navClient) navClient.style.display = 'flex';
+        if (mgmtSection) mgmtSection.style.display = 'block';
+
+        switchView('main-app');
+        navigateTo('view-dashboard');
+      }
+      // ✅ Démarrer la synchronisation temps réel avec la base de données
+      startRealtimeSync();
+    }
+
+    /**
+     * Déconnexion complète de l'utilisateur
+     */
+    function logoutUser() {
+      currentUser = null;
+      stopRealtimeSync();
+      localStorage.removeItem('technova_session');
+      localStorage.removeItem('technova_token');
+
+      const badge = document.getElementById('connectedUserBadge');
+      if (badge) badge.innerText = 'Non connecté';
+
+      const emailInput = document.getElementById('loginEmailInput');
+      if (emailInput) emailInput.value = '';
+      const passInput = document.getElementById('loginPasswordInput');
+      if (passInput) passInput.value = '';
+
+      switchView('view-landing');
+      showToast('Vous avez été déconnecté avec succès.');
+    }
+
+    /**
+     * Alterner l'affichage du menu démo
+     */
+    function toggleDemoSwitcher() {
+      const pills = document.getElementById('demoRolePills');
+      if (pills) {
+        pills.style.display = pills.style.display === 'none' ? 'flex' : 'none';
+      }
+    }
+
+    /**
+     * Changement rapide de rôle en mode démonstration
+     */
+    async function quickSwitchDemo(role) {
+      // Map role to demo user credentials
+      const demoCredentials = {
+        'ADMIN': { email: 'onguiba.daniel@african-invest.cm', password: 'admin123' },
+        'RESP_TECH': { email: 'michel.ndongo@african-invest.cm', password: 'resp123' },
+        'TECHNICIEN': { email: 'jean.mbarga@african-invest.cm', password: 'tech123' },
+        'CLIENT': { email: 'direction.finance@african-invest.cm', password: 'client123' }
+      };
+
+      const creds = demoCredentials[role];
+      if (!creds) {
+        showToast('Rôle non reconnu');
+        return;
+      }
+
+      try {
+        // Perform actual login to get a valid token
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(creds)
+        });
+
+        const data = await res.json();
+        
+        if (data.success && data.user && data.token) {
+          localStorage.setItem('technova_token', data.token);
+          applyAuthenticatedSession(data.user);
+          showToast(`Mode démo : Basculé sur [${role}] - ${data.user.full_name}`);
+        } else {
+          showToast(`Erreur: ${data.message || 'Impossible de se connecter avec ce rôle'}`);
+        }
+      } catch (err) {
+        console.error('Erreur lors du changement de rôle:', err);
+        showToast('Erreur de connexion. Veuillez vérifier que le serveur est démarré.');
+      }
+    }
+
+    /**
+     * Alias pour switchActiveRole (referenced in HTML)
+     */
+    function switchActiveRole(role) {
+      quickSwitchDemo(role);
+    }
+
+    // AUTH TABS (CONNEXION VS INSCRIPTION CLIENT)
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('authLoginForm');
+      const registerForm = document.getElementById('authRegisterForm');
+      const tabBtnLogin = document.getElementById('tabBtnLogin');
+      const tabBtnRegister = document.getElementById('tabBtnRegister');
+
+      if (tab === 'register') {
+        if (loginForm) loginForm.style.display = 'none';
+        if (registerForm) registerForm.style.display = 'block';
+        if (tabBtnRegister) {
+          tabBtnRegister.style.background = '#ffffff';
+          tabBtnRegister.style.color = 'var(--primary-navy)';
+          tabBtnRegister.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
+        }
+        if (tabBtnLogin) {
+          tabBtnLogin.style.background = 'transparent';
+          tabBtnLogin.style.color = 'var(--text-muted)';
+          tabBtnLogin.style.boxShadow = 'none';
+        }
+      } else {
+        if (loginForm) loginForm.style.display = 'block';
+        if (registerForm) registerForm.style.display = 'none';
+        if (tabBtnLogin) {
+          tabBtnLogin.style.background = '#ffffff';
+          tabBtnLogin.style.color = 'var(--primary-navy)';
+          tabBtnLogin.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
+        }
+        if (tabBtnRegister) {
+          tabBtnRegister.style.background = 'transparent';
+          tabBtnRegister.style.color = 'var(--text-muted)';
+          tabBtnRegister.style.boxShadow = 'none';
+        }
+      }
+    }
+
+    // INSCRIPTION DU CLIENT & CONNEXION DIRECTE
+    async function handleClientRegister(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('regFullName').value.trim();
+      const department = document.getElementById('regDepartment').value;
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regPasswordConfirm').value;
+
+      if (password !== confirm) {
+        showToast("Erreur : Les mots de passe ne correspondent pas !");
+        return;
+      }
+
+      if (password.length < 6) {
+        showToast("Erreur : Le mot de passe doit comporter au moins 6 caractères !");
+        return;
+      }
+
+      let registeredUser = null;
+
+      // Envoi vers l'API Backend SQLite
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const res = await fetch('/api/auth/register-client', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ full_name: fullName, department, email, phone, password })
+          });
+          const data = await res.json();
+          if (!data.success) {
+            showToast("Erreur : " + data.message);
+            return;
+          }
+          registeredUser = data.user;
+          if (data.token) localStorage.setItem('technova_token', data.token);
+        } catch (err) {
+          console.error('Erreur API inscription:', err);
+        }
+      }
+
+      // Fallback local si utilisé sans serveur
+      if (!registeredUser) {
+        registeredUser = {
+          id: Date.now(),
+          full_name: fullName,
+          email: email,
+          role: 'CLIENT',
+          department: department,
+          phone: phone,
+          avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+        };
+      }
+
+      // Appliquer IMMÉDIATEMENT la session du nouveau client inscrit
+      applyAuthenticatedSession(registeredUser);
+      showToast(`Félicitations ${fullName} ! Votre compte est créé et vous êtes connecté.`);
+    }
+
+    // CONNEXION SÉCURISÉE AVEC VÉRIFICATION DU COMPTE
+    async function handleUserLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmailInput').value.trim();
+      const password = document.getElementById('loginPasswordInput').value;
+
+      if (!email || !password) {
+        showToast("Veuillez saisir votre email et votre mot de passe.");
+        return;
+      }
+
+      // Appel de l'API Backend
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await res.json();
+          if (data.success && data.user) {
+            if (data.token) localStorage.setItem('technova_token', data.token);
+            applyAuthenticatedSession(data.user);
+            showToast(`Bienvenue ${data.user.full_name} ! Connexion réussie.`);
+            return;
+          } else {
+            showToast("Erreur : " + (data.message || "Identifiants invalides"));
+            return;
+          }
+        } catch (err) {
+          console.error('Erreur réseau login:', err);
+        }
+      }
+
+      // Fallback local uniquement si hors-ligne
+      const mockUser = {
+        id: Date.now(),
+        full_name: email.split('@')[0].replace('.', ' '),
+        email: email,
+        role: email.includes('client') ? 'CLIENT' : 'ADMIN',
+        department: 'Service Utilisateur',
+        avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+      };
+      applyAuthenticatedSession(mockUser);
+      showToast(`Connexion locale réussie (${mockUser.full_name})`);
+    }
+
+    // ================================================================
+    // MATRICE DES VUES AUTORISÉES PAR RÔLE
+    // Chaque rôle ne peut accéder qu'à ses propres vues
+    // ================================================================
+    const ROLE_VIEWS = {
+      'ADMIN':      ['view-dashboard', 'view-resp-technique', 'view-technicien', 'view-client',
+                     'view-interventions', 'view-planification', 'view-techniciens',
+                     'view-equipements', 'view-rapports', 'view-utilisateurs', 'view-parametres'],
+      'RESP_TECH':  ['view-dashboard', 'view-resp-technique', 'view-interventions',
+                     'view-planification', 'view-techniciens', 'view-equipements', 'view-rapports'],
+      'TECHNICIEN': ['view-technicien'],
+      'CLIENT':     ['view-client']
+    };
+
+    // Vue par défaut à l'entrée selon le rôle
+    const ROLE_DEFAULT_VIEW = {
+      'ADMIN':      'view-dashboard',
+      'RESP_TECH':  'view-resp-technique',
+      'TECHNICIEN': 'view-technicien',
+      'CLIENT':     'view-client'
+    };
+
+    // NAVIGATION ENTRE LES VUES (avec vérification des droits)
+    function navigateTo(targetViewId, clickedElement) {
+      // Vérification des droits : bloquer si le rôle n'a pas accès à cette vue
+      if (currentUser) {
+        const allowed = ROLE_VIEWS[currentUser.role] || [];
+        if (!allowed.includes(targetViewId)) {
+          console.warn(`[TECHNOVA] Accès refusé : le rôle ${currentUser.role} ne peut pas accéder à ${targetViewId}`);
+          return; // Silencieusement bloqué
+        }
+      }
+
+      document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active-view'));
+      const target = document.getElementById(targetViewId);
+      if (target) target.classList.add('active-view');
+
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      if (clickedElement) {
+        clickedElement.classList.add('active');
+      } else {
+        const found = document.querySelector(`.nav-item[data-target="${targetViewId}"]`);
+        if (found) found.classList.add('active');
+      }
+      document.getElementById('appSidebar').classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchView(viewId) {
+      document.getElementById('view-landing').classList.remove('active-view');
+      document.getElementById('view-login').classList.remove('active-view');
+      document.getElementById('main-app').style.display = 'none';
+
+      if (viewId === 'view-landing') {
+        document.getElementById('view-landing').classList.add('active-view');
+      } else if (viewId === 'view-login') {
+        document.getElementById('view-login').classList.add('active-view');
+      } else {
+        document.getElementById('main-app').style.display = 'flex';
+        navigateTo(viewId);
+      }
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const isOpen = sidebar.classList.toggle('open');
+      
+      if (overlay) {
+        overlay.classList.toggle('active', isOpen);
+      }
+      
+      // Empêcher le scroll du body quand la sidebar est ouverte sur mobile
+      if (window.innerWidth <= 900) {
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      }
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      
+      sidebar.classList.remove('open');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+
+    // Fermer la sidebar en cliquant sur l'overlay
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('sidebarOverlay');
+      if (overlay) {
+        overlay.addEventListener('click', closeSidebar);
+      }
+      
+      // Fermer la sidebar après avoir cliqué sur un lien de navigation (sur mobile)
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth <= 900) {
+            closeSidebar();
+          }
+        });
+      });
+      
+      // Gérer le redimensionnement de la fenêtre
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+          closeSidebar();
+        }
+      });
+    });
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function showToast(text) {
+      const toast = document.getElementById('toastMessage');
+      document.getElementById('toastText').innerText = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    function showNotificationPanel() {
+      showToast("3 alertes : Surchauffe Serveur B1, Révision Climatisation validée, Nouveau rapport disponible.");
+    }
+
+    // ================================================================
+    // API HELPERS – communication sécurisée avec le backend SQLite
+    // ================================================================
+    async function apiCall(method, path, body = null) {
+      const token = localStorage.getItem('technova_token');
+      const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+      };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(path, opts);
+      return res.json();
+    }
+
+    // ================================================================
+    // SYNCHRONISATION EN TEMPS RÉEL (toutes les 5 secondes)
+    // ================================================================
+    let syncInterval = null;
+
+    async function syncDatabaseState() {
+      if (!currentUser) return;
+      try {
+        if (currentUser.role === 'ADMIN' || currentUser.role === 'RESP_TECH') {
+          await syncAdminDashboard();
+          await syncInterventionsList();
+        }
+        if (currentUser.role === 'RESP_TECH' || currentUser.role === 'ADMIN') {
+          await syncRespPendingTickets();
+        }
+        if (currentUser.role === 'TECHNICIEN') {
+          await syncTechMissions();
+        }
+        if (currentUser.role === 'CLIENT') {
+          await syncClientTickets();
+        }
+        await syncNotifications();
+      } catch (err) {
+        console.warn('Sync skipped:', err.message);
+      }
+    }
+
+    function startRealtimeSync() {
+      if (syncInterval) clearInterval(syncInterval);
+      syncDatabaseState(); // appel immédiat
+      syncInterval = setInterval(syncDatabaseState, 5000);
+    }
+
+    function stopRealtimeSync() {
+      if (syncInterval) clearInterval(syncInterval);
+      syncInterval = null;
+    }
+
+    // ── Tableau de bord ADMIN / Stats KPI ──────────────────────────
+    async function syncAdminDashboard() {
+      const data = await apiCall('GET', '/api/stats/dashboard');
+      if (!data.success) return;
+      const s = data.stats;
+      const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+      // IDs réels dans le HTML
+      setEl('kpi-total', s.total || 0);
+      setEl('kpi-encours', s.en_cours || 0);
+      setEl('kpi-attente', s.en_attente || 0);
+      setEl('kpi-terminees', s.terminees || 0);
+      // Mise à jour du taux de résolution
+      const gaugePercent = document.querySelector('.gauge-percent');
+      if (gaugePercent) gaugePercent.innerText = (s.resolution_rate || 0) + '%';
+    }
+
+    // ── Liste complète des interventions (Admin / Resp) ─────────────
+    async function syncInterventionsList() {
+      const data = await apiCall('GET', '/api/interventions');
+      if (!data.success) return;
+      const tbody = document.getElementById('dashboardInterventionsBody');
+      const tbody2 = document.getElementById('interventionsFullListBody');
+      const rows = data.interventions.slice(0, 10).map(renderInterventionRow).join('');
+      if (tbody) tbody.innerHTML = rows;
+      if (tbody2) tbody2.innerHTML = data.interventions.map(renderInterventionRow).join('');
+    }
+
+    function renderInterventionRow(i) {
+      const prioClass = i.priority === 'Haute' ? 'badge-haute' : i.priority === 'Moyenne' ? 'badge-moyenne' : 'badge-basse';
+      const statClass = i.status === 'En Cours' ? 'badge-en-cours' : i.status === 'Résolue' ? 'badge-resolue' :
+                        i.status === 'Clôturée' ? 'badge-resolue' : i.status === 'Affectée' ? 'badge-moyenne' : 'badge-en-attente';
+      const dateStr = i.created_at ? new Date(i.created_at).toLocaleString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '–';
+      const techName = i.tech_name || '<em style="color:#94a3b8">Non affecté</em>';
+      const techAvatar = i.tech_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80';
+      return `<tr>
+        <td class="ref-code">${i.reference}</td>
+        <td style="font-weight:700">${i.equipment_name || '–'}</td>
+        <td><div class="tech-cell">
+          ${i.tech_name ? `<img class="tech-mini-avatar" src="${techAvatar}" onerror="this.style.display='none'">` : ''}
+          <span>${techName}</span>
+        </div></td>
+        <td><span class="badge ${prioClass}">${i.priority}</span></td>
+        <td><span class="badge ${statClass}">${i.status}</span></td>
+        <td style="color:var(--text-muted);font-size:12px">${dateStr}</td>
+        <td><button class="action-icon-btn" title="Voir détail" onclick="loadAndShowDetail(${i.id})"><i class="fa-regular fa-eye"></i></button></td>
+      </tr>`;
+    }
+
+    // ── Tickets en attente d'affectation (Responsable Technique) ───
+    async function syncRespPendingTickets() {
+      const data = await apiCall('GET', '/api/interventions?status=En Attente');
+      if (!data.success) return;
+      const list = document.getElementById('respPendingTicketsList');
+      if (!list) return;
+      const count = document.getElementById('respUnassignedCount');
+      if (count) count.innerText = data.count;
+      if (data.count === 0) {
+        list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted)"><i class="fa-solid fa-check-circle" style="color:var(--turquoise);font-size:28px;display:block;margin-bottom:8px"></i>Toutes les demandes sont affectées !</div>`;
+        return;
+      }
+      list.innerHTML = data.interventions.map(i => `
+        <div style="background:#f8fafc;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #e2e8f0;margin-bottom:10px">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:13px;color:var(--primary-navy)">${i.reference} — ${i.equipment_name || i.title}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:3px">Demandé par <strong>${i.requester_name}</strong> • ${i.priority}</div>
+            <div style="font-size:11.5px;color:var(--text-light);margin-top:2px">${i.description ? i.description.substring(0, 80) + '...' : '–'}</div>
+          </div>
+          <button onclick="openAssignModal(${i.id}, '${i.reference}', '${(i.equipment_name||'').replace(/'/g,"\\'")}', '${i.requester_name}')" style="background:var(--electric-blue);color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;font-size:12px;white-space:nowrap">
+            <i class="fa-solid fa-user-check"></i> Affecter
+          </button>
+        </div>`).join('');
+    }
+
+    // ── Missions du technicien connecté ─────────────────────────────
+    async function syncTechMissions() {
+      const data = await apiCall('GET', '/api/interventions');
+      if (!data.success) return;
+      const container = document.getElementById('techMobileBodyMissions');
+      if (!container) return;
+      if (data.count === 0) {
+        container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted)"><i class="fa-solid fa-mug-hot" style="font-size:28px;display:block;margin-bottom:8px"></i>Aucune mission en cours. Bonne pause !</div>`;
+        return;
+      }
+      container.innerHTML = data.interventions.map(i => {
+        const isActive = i.status === 'En Cours';
+        const isDone = i.status === 'Résolue' || i.status === 'Clôturée';
+        const bgColor = isActive ? '#eff6ff' : isDone ? '#f0fdf4' : '#fff';
+        const borderColor = isActive ? '#1a6cf0' : isDone ? '#00d284' : '#e2e8f0';
+        return `<div style="background:${bgColor};border:2px solid ${borderColor};border-radius:14px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-weight:800;color:var(--primary-navy);font-size:14px">${i.reference}</span>
+            <span class="badge ${isActive?'badge-en-cours':isDone?'badge-resolue':'badge-en-attente'}">${i.status}</span>
+          </div>
+          <div style="font-weight:700;font-size:13px;margin-bottom:4px">${i.equipment_name || i.title}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px"><i class="fa-solid fa-location-dot"></i> ${i.equipment_location || 'Site principal'}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${!isActive && !isDone ? `<button onclick="techUpdateStatus(${i.id},'En Cours','${i.reference}')" style="flex:1;background:var(--electric-blue);color:#fff;padding:9px;border-radius:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-play"></i> Démarrer</button>` : ''}
+            ${isActive ? `<button onclick="techUpdateStatus(${i.id},'Résolue','${i.reference}')" style="flex:1;background:var(--turquoise);color:#fff;padding:9px;border-radius:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-check"></i> Terminer</button>` : ''}
+            ${isDone ? `<div style="color:var(--turquoise);font-weight:700;font-size:13px"><i class="fa-solid fa-circle-check"></i> Intervention terminée</div>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Suivi des demandes du client ────────────────────────────────
+    async function syncClientTickets() {
+      const data = await apiCall('GET', '/api/interventions');
+      if (!data.success) return;
+
+      // Mettre à jour le stepper pour la dernière demande active
+      const active = data.interventions.find(i => i.status !== 'Clôturée' && i.status !== 'Résolue') || data.interventions[0];
+      if (active) {
+        updateClientStepper(active);
+        const refEl = document.getElementById('clientActiveTicketRef');
+        if (refEl) refEl.innerText = active.reference;
+        const descEl = document.getElementById('clientActiveTicketDesc');
+        if (descEl) descEl.innerText = active.title || active.description;
+      }
+
+      // Historique complet
+      const tbody = document.getElementById('clientHistoryTableBody');
+      if (!tbody) return;
+      if (data.count === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">Aucune demande pour l'instant.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.interventions.map(i => {
+        const statClass = i.status === 'En Cours' ? 'badge-en-cours' : i.status === 'Résolue' ? 'badge-resolue' :
+                          i.status === 'Clôturée' ? 'badge-resolue' : i.status === 'Affectée' ? 'badge-moyenne' : 'badge-en-attente';
+        const dateStr = i.created_at ? new Date(i.created_at).toLocaleString('fr-FR') : '–';
+        return `<tr>
+          <td class="ref-code">${i.reference}</td>
+          <td>${i.equipment_name || i.title}</td>
+          <td><span class="badge ${statClass}">${i.status}</span></td>
+          <td>${i.tech_name || '<em style="color:#94a3b8">En attente d\'affectation</em>'}</td>
+          <td style="color:var(--text-muted);font-size:12px">${dateStr}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function updateClientStepper(intervention) {
+      const steps = ['En Attente', 'Affectée', 'En Cours', 'Résolue'];
+      const currentIdx = steps.indexOf(intervention.status);
+      const stepperBubbles = document.querySelectorAll('.stepper-bubble');
+      const stepperFill = document.querySelector('.stepper-line-fill');
+
+      stepperBubbles.forEach((bubble, idx) => {
+        bubble.classList.remove('completed', 'current');
+        if (idx < currentIdx) bubble.classList.add('completed');
+        else if (idx === currentIdx) bubble.classList.add('current');
+      });
+
+      if (stepperFill) {
+        const pct = currentIdx === 0 ? '0%' : currentIdx === 1 ? '33%' : currentIdx === 2 ? '66%' : '100%';
+        stepperFill.style.width = pct;
+      }
+    }
+
+    // ── Notifications ────────────────────────────────────────────────
+    async function syncNotifications() {
+      try {
+        const data = await apiCall('GET', '/api/notifications');
+        if (!data.success) return;
+        const badge = document.getElementById('notifBadgeCount');
+        const unread = (data.notifications || []).filter(n => !n.is_read).length;
+        if (badge) { badge.innerText = unread; badge.style.display = unread > 0 ? 'flex' : 'none'; }
+      } catch(e) {}
+    }
+
+    // ================================================================
+    // QUICK ASSIGN — OUVERTURE DU MODAL D'AFFECTATION
+    // ================================================================
+    let _assignTargetId = null;
+
+    async function openAssignModal(interventionId, ref, equipName, requesterName) {
+      _assignTargetId = interventionId;
+      // Récupérer la liste des techniciens disponibles
+      const techData = await apiCall('GET', '/api/technicians');
+      const techs = techData.technicians || [];
+
+      // Construire le modal dynamiquement
+      let techOptions = techs.map(t =>
+        `<option value="${t.id}">${t.full_name} — ${t.status_label} (Dispo ${t.availability_rate || 100}%)</option>`
+      ).join('');
+
+      const modalHtml = `
+        <div id="modal-assign-tech" class="modal-overlay open">
+          <div class="modal-card" style="max-width:450px">
+            <div class="modal-header">
+              <h3><i class="fa-solid fa-user-check" style="color:var(--electric-blue)"></i> Affecter un Technicien</h3>
+              <button class="modal-close-btn" onclick="document.getElementById('modal-assign-tech').remove()">&times;</button>
+            </div>
+            <div style="background:#f0f6ff;border-radius:10px;padding:12px;margin-bottom:16px;font-size:13px">
+              <strong>${ref}</strong> — ${equipName}<br>
+              <span style="color:var(--text-muted)">Demandé par ${requesterName}</span>
+            </div>
+            <div class="form-group">
+              <label>Technicien à affecter</label>
+              <select class="form-control" id="assignTechSelect">${techOptions || '<option>Aucun disponible</option>'}</select>
+            </div>
+            <div class="form-group">
+              <label>Commentaire (optionnel)</label>
+              <textarea class="form-control" id="assignComment" rows="2" placeholder="Instructions spécifiques..."></textarea>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px">
+              <button class="btn-quick-outline" onclick="document.getElementById('modal-assign-tech').remove()">Annuler</button>
+              <button class="btn-quick-primary" onclick="confirmAssignTech()"><i class="fa-solid fa-check"></i> Confirmer l'affectation</button>
+            </div>
+          </div>
+        </div>`;
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    async function confirmAssignTech() {
+      const techId = document.getElementById('assignTechSelect')?.value;
+      const comment = document.getElementById('assignComment')?.value;
+      if (!techId || !_assignTargetId) return;
+      const data = await apiCall('PATCH', `/api/interventions/${_assignTargetId}/assign`, { technician_id: parseInt(techId), comment });
+      document.getElementById('modal-assign-tech')?.remove();
+      if (data.success) {
+        showToast(`✅ ${data.message}`);
+        await syncDatabaseState();
+      } else {
+        showToast('Erreur : ' + (data.message || 'Affectation échouée'));
+      }
+    }
+
+    // ================================================================
+    // ACTION TECHNICIEN — DÉMARRER / TERMINER UNE MISSION
+    // ================================================================
+    async function techUpdateStatus(interventionId, newStatus, ref) {
+      let observations = '';
+      if (newStatus === 'Résolue') {
+        observations = prompt(`Rapport de clôture pour ${ref} :\n(Décrivez les travaux effectués)`, 'Intervention effectuée avec succès. Équipement opérationnel.');
+        if (observations === null) return; // annulé
+      }
+      const data = await apiCall('PATCH', `/api/interventions/${interventionId}/status`, { status: newStatus, observations });
+      if (data.success) {
+        showToast(`✅ ${data.message}`);
+        await syncTechMissions();
+      } else {
+        showToast('Erreur : ' + (data.message || 'Action échouée'));
+      }
+    }
+
+    // ================================================================
+    // SOUMISSION TICKET CLIENT → BASE DE DONNÉES
+    // ================================================================
+    async function handleClientTicketSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const inputs = form.querySelectorAll('input, select, textarea');
+      const equipName  = inputs[0]?.value.trim();
+      const location   = inputs[1]?.value.trim();
+      const urgency    = inputs[2]?.value;
+      const description = inputs[3]?.value.trim();
+
+      if (!equipName || !description) {
+        showToast('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+
+      const priorityMap = { 'Bloquant (Travail interrompu)': 'Haute', 'Gênant (Ralentissement de l\'activité)': 'Moyenne', 'Mineur (Simple demande d\'amélioration)': 'Basse' };
+      const priority = priorityMap[urgency] || 'Moyenne';
+      const title = equipName + (location ? ` — ${location}` : '');
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = 'Envoi en cours...'; }
+
+      const data = await apiCall('POST', '/api/interventions', { title, description, priority, equipment_id: equipName });
+
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Envoyer la demande au Responsable'; }
+
+      if (data.success) {
+        form.reset();
+        closeModal('modal-client-new-ticket');
+        showToast(`✅ Demande ${data.reference} enregistrée ! Le Responsable Technique a été notifié.`);
+        await syncClientTickets();
+      } else {
+        showToast('Erreur : ' + (data.message || 'Envoi échoué'));
+      }
+    }
+
+    // ================================================================
+    // CRÉATION D'INTERVENTION (ADMIN / RESP_TECH) → BASE DE DONNÉES
+    // ================================================================
+    async function handleCreateIntervention(e) {
+      e.preventDefault();
+      const equipName = document.getElementById('modalEquipInput').value;
+      const techId    = document.getElementById('modalTechInput').value;
+      const priority  = document.getElementById('modalPrioInput').value;
+      const status    = document.getElementById('modalStatInput').value;
+      const description = document.getElementById('modalDescInput').value;
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = 'Enregistrement...'; }
+
+      const data = await apiCall('POST', '/api/interventions', {
+        title: equipName,
+        description,
+        priority,
+        equipment_id: equipName,
+        technician_id: parseInt(techId) || null
+      });
+
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Affecter et notifier le technicien'; }
+
+      if (data.success) {
+        closeModal('modal-new-intervention');
+        showToast(`✅ Intervention ${data.reference} créée et enregistrée en base de données !`);
+        e.target.reset();
+        await syncDatabaseState();
+      } else {
+        showToast('Erreur : ' + (data.message || 'Création échouée'));
+      }
+    }
+
+    async function loadAndShowDetail(interventionId) {
+      const data = await apiCall('GET', `/api/interventions/${interventionId}`);
+      if (!data.success) { showToast('Impossible de charger les détails'); return; }
+      const i = data.intervention;
+      const logs = data.logs || [];
+
+      document.getElementById('detailModalRef').innerText = i.reference;
+      document.getElementById('detailModalEquip').innerText = i.equipment_name || '–';
+      document.getElementById('detailModalTech').innerText = i.tech_name || 'Non affecté';
+      document.getElementById('detailModalDate').innerText = i.created_at ? new Date(i.created_at).toLocaleString('fr-FR') : '–';
+      document.getElementById('detailModalDesc').innerText = i.description || 'Aucune description fournie.';
+
+      const prioClass = i.priority === 'Haute' ? 'badge-haute' : i.priority === 'Moyenne' ? 'badge-moyenne' : 'badge-basse';
+      const statClass = i.status === 'En Cours' ? 'badge-en-cours' : i.status === 'Résolue' ? 'badge-resolue' :
+                        i.status === 'Clôturée' ? 'badge-resolue' : i.status === 'Affectée' ? 'badge-moyenne' : 'badge-en-attente';
+      document.getElementById('detailModalBadges').innerHTML = `
+        <span class="badge ${prioClass}">Priorité ${i.priority}</span>
+        <span class="badge ${statClass}">${i.status}</span>
+      `;
+
+      // Afficher l'historique des actions si disponible
+      const logsContainer = document.getElementById('detailModalLogs');
+      if (logsContainer && logs.length > 0) {
+        logsContainer.innerHTML = logs.map(l => `
+          <div style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:12px">
+            <strong style="color:var(--electric-blue)">${l.action}</strong>
+            <span style="color:var(--text-muted)"> — ${l.author_name || 'Système'}</span>
+            ${l.comment ? `<div style="color:var(--text-dark);margin-top:2px">${l.comment}</div>` : ''}
+          </div>`).join('');
+        logsContainer.style.display = 'block';
+      }
+      openModal('modal-detail-intervention');
+    }
+
+    function showInterventionDetail(ref, equip, tech, prio, stat, date, desc) {
+      document.getElementById('detailModalRef').innerText = ref;
+      document.getElementById('detailModalEquip').innerText = equip;
+      document.getElementById('detailModalTech').innerText = tech;
+      document.getElementById('detailModalDate').innerText = date;
+      document.getElementById('detailModalDesc').innerText = desc || "Intervention technique sur site.";
+      const prioClass = prio === 'Haute' ? 'badge-haute' : prio === 'Moyenne' ? 'badge-moyenne' : 'badge-basse';
+      const statClass = stat === 'En Cours' ? 'badge-en-cours' : stat === 'Résolue' ? 'badge-resolue' : 'badge-en-attente';
+      document.getElementById('detailModalBadges').innerHTML = `<span class="badge ${prioClass}">Priorité ${prio}</span><span class="badge ${statClass}">${stat}</span>`;
+      openModal('modal-detail-intervention');
+    }
+
+    // CHARTS
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Line Chart
+      const ctxLine = document.getElementById('monthlyPerformanceChart');
+      if (ctxLine) {
+        new Chart(ctxLine.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            datasets: [
+              {
+                label: 'Demandes',
+                data: [42, 65, 65, 78, 88, 95],
+                borderColor: '#1a6cf0',
+                borderWidth: 3,
+                pointBackgroundColor: '#1a6cf0',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                tension: 0.35,
+                fill: false
+              },
+              {
+                label: 'Résolues',
+                data: [32, 52, 52, 62, 75, 84],
+                borderColor: '#00d284',
+                backgroundColor: 'rgba(0, 210, 132, 0.1)',
+                borderWidth: 3,
+                pointBackgroundColor: '#00d284',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                tension: 0.35,
+                fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { min: 0, max: 100, ticks: { stepSize: 25, color: '#98a2b3' }, grid: { color: '#f2f4f7' } },
+              x: { ticks: { color: '#98a2b3' }, grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // 2. Gauge Chart (93%)
+      const ctxGauge = document.getElementById('resolutionGaugeChart');
+      if (ctxGauge) {
+        new Chart(ctxGauge.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [93, 7],
+              backgroundColor: ['#00d284', '#e2f7ee'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '78%',
+            plugins: { tooltip: { enabled: false } }
+          }
+        });
+      }
+
+      // 3. Connexion temps réel à l'API Backend & Base de données SQLite
+      if (window.location.protocol.startsWith('http')) {
+        fetch('/api/health')
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'UP') {
+              const badge = document.createElement('span');
+              badge.style.cssText = 'background:#10b981;color:#fff;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;margin-left:10px;display:inline-flex;align-items:center;gap:4px;';
+              badge.innerHTML = '<i class="fa-solid fa-database"></i> API & SQLite Connectés';
+              const target = document.querySelector('.company-badge > div');
+              if (target) target.appendChild(badge);
+              console.log('✅ TECHNOVA Backend API & SQLite opérationnels :', data);
+            }
+          })
+          .catch(() => console.log('Mode autonome local actif.'));
+      }
+
+      // 4. Restauration de session : vérification du token via l'API puis restauration de l'espace
+      const savedToken = localStorage.getItem('technova_token');
+      const savedSession = localStorage.getItem('technova_session');
+
+      if (savedToken && window.location.protocol.startsWith('http')) {
+        // Vérifier le token auprès du serveur pour s'assurer qu'il est encore valide
+        fetch('/api/auth/me', {
+          headers: { 'Authorization': `Bearer ${savedToken}` }
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.user) {
+              // Session serveur confirmée : restaurer l'espace du bon rôle
+              applyAuthenticatedSession(data.user);
+            } else {
+              // Token expiré ou invalide
+              localStorage.removeItem('technova_token');
+              localStorage.removeItem('technova_session');
+              switchView('view-landing');
+            }
+          })
+          .catch(() => {
+            // Hors ligne : restaurer depuis le localStorage si disponible
+            if (savedSession) {
+              try {
+                const user = JSON.parse(savedSession);
+                applyAuthenticatedSession(user);
+              } catch {
+                switchView('view-landing');
+              }
+            } else {
+              switchView('view-landing');
+            }
+          });
+      } else if (savedSession) {
+        // Mode sans serveur : restaurer depuis localStorage
+        try {
+          const user = JSON.parse(savedSession);
+          applyAuthenticatedSession(user);
+        } catch {
+          switchView('view-landing');
+        }
+      } else {
+        // Aucune session : page d'accueil
+        switchView('view-landing');
+      }
+    });
+  </script>
+</body>
+</html>

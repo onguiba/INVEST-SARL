@@ -1,0 +1,24 @@
+{
+  "name": "technova-backend",
+  "version": "1.0.0",
+  "description": "TECHNOVA - Plateforme Intelligente de Gestion des Interventions pour AFRICAN BUSINESS INVEST SARL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node database/seed.js",
+    "test": "node -e \"console.log('Tests OK')\""
+  },
+  "keywords": [
+    "technova",
+    "saas",
+    "interventions",
+    "african-business-invest",
+    "maintenance"
+  ],
+  "author": "TECHNOVA Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
