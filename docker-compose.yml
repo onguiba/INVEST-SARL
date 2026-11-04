@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  technova:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: technova-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - TECHNOVA_SECRET=${TECHNOVA_SECRET:-TECHNOVA_SECURE_KEY_AFRICAN_BUSINESS_INVEST_2026_@!}
+    volumes:
+      # Persister la base de données SQLite
+      - ./database:/app/database
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - technova-network
+
+networks:
+  technova-network:
+    driver: bridge
+
+volumes:
+  database:
