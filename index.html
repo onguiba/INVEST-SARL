@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -132,17 +132,22 @@
       margin-bottom: 18px;
     }
     .brand-logo-wrap {
-      width: 58px;
+      width: 120px;
       height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1877f2 0%, #00d284 100%);
+      border-radius: 8px;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 10px;
-      box-shadow: 0 4px 14px rgba(24, 119, 242, 0.4);
+      box-shadow: 0 4px 14px rgba(24, 119, 242, 0.2);
+      padding: 8px;
     }
-    .brand-logo-wrap i { font-size: 28px; color: #ffffff; }
+    .brand-logo-wrap img { 
+      width: 100%; 
+      height: auto; 
+      object-fit: contain;
+    }
     .brand-title { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
     .brand-subtitle { font-size: 11px; color: #8fa0be; margin-top: 4px; line-height: 1.3; max-width: 200px; }
     
@@ -1015,7 +1020,8 @@
     <header style="height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid var(--border-color); background: #ffffff;">
       <div style="display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 800; color: var(--primary-navy);">
         <div class="brand-logo-wrap" style="width: 40px; height: 40px; margin-bottom: 0;">
-          <i class="fa-solid fa-gear" style="font-size: 18px;"></i>
+          <img src="./assets/images/logo-entreprise.jpeg" alt="Logo ABIS" style="width:100%;height:100%;object-fit:contain;border-radius:8px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <i class="fa-solid fa-gear" style="font-size: 18px; display:none;"></i>
         </div>
         <span>TECHNOVA</span>
       </div>
@@ -1238,8 +1244,9 @@
        ============================================================ -->
   <div id="view-login" class="login-page-wrap">
     <div style="background: #ffffff; border-radius: 24px; padding: 32px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: center;">
-      <div class="brand-logo-wrap" style="margin: 0 auto 12px; width: 50px; height: 50px;">
-        <i class="fa-solid fa-gear" style="font-size: 22px;"></i>
+      <div class="brand-logo-wrap" style="margin: 0 auto 12px; width: 70px; height: 70px;">
+        <img src="./assets/images/logo-entreprise.jpeg" alt="Logo ABIS" style="width:100%;height:100%;object-fit:contain;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <i class="fa-solid fa-gear" style="font-size: 22px; display:none;"></i>
       </div>
       <h2 style="font-size: 22px; font-weight: 800; color: var(--primary-navy); margin-bottom: 2px;">TECHNOVA</h2>
       <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 18px;">AFRICAN BUSINESS INVEST SARL &bull; Espace Sécurisé</p>
@@ -1383,10 +1390,11 @@
     <aside class="sidebar" id="appSidebar">
       <div class="sidebar-brand">
         <div class="brand-logo-wrap">
-          <i class="fa-solid fa-gear" style="transform: rotate(20deg);"></i>
+          <img src="./assets/images/logo-entreprise.jpeg" alt="Logo Entreprise" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div style="display:none; font-weight:800; color:#0b1a38; font-size:18px;">ABIS</div>
         </div>
         <div class="brand-title">TECHNOVA</div>
-        <div class="brand-subtitle">La technologie au service de vos interventions</div>
+        <div class="brand-subtitle">AFRICAN BUSINESS INVEST SARL</div>
       </div>
 
       <nav class="sidebar-menu">
@@ -1494,9 +1502,9 @@
           </button>
 
           <div class="user-profile-header" onclick="logoutUser()" title="Cliquer pour se déconnecter">
-            <img class="user-avatar-top" id="topAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar">
+            <img class="user-avatar-top" id="topAvatarImg" src="./assets/images/image-administrateur.jpeg" alt="Administrateur" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'">
             <div>
-              <span class="user-name-top" id="topUserName">Onguiba Boutna Daniel</span>
+              <span class="user-name-top" id="topUserName"></span>
               <span class="user-role-top" id="topUserRole">Administrateur</span>
             </div>
             <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: #94a3b8; margin-left: 4px;"></i>
@@ -2394,7 +2402,18 @@
         </div>
         <div class="form-group">
           <label>Localisation précise</label>
-          <input type="text" class="form-control" placeholder="Ex: Bâtiment A - Étage 1" required>
+          <input type="text" id="clientTicketLocation" class="form-control" placeholder="Ex: Bâtiment A - Étage 1" required>
+          <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+            <button type="button" id="btnGeolocate" onclick="captureClientGeolocation()" style="
+              display: inline-flex; align-items: center; gap: 7px;
+              background: #e8f1fd; color: #1a6cf0; border: 1px solid #bcd4fb;
+              border-radius: 8px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;">
+              <i class="fa-solid fa-location-crosshairs"></i> Détecter ma position GPS
+            </button>
+            <span id="geoStatusMsg" style="font-size: 11.5px; color: var(--text-muted);"></span>
+          </div>
+          <input type="hidden" id="clientTicketLatitude" name="latitude">
+          <input type="hidden" id="clientTicketLongitude" name="longitude">
         </div>
         <div class="form-group">
           <label>Niveau d'urgence constaté</label>
@@ -2479,7 +2498,10 @@
 
       // 2. Mettre à jour la barre supérieure (Topbar)
       const topName = document.getElementById('topUserName');
-      if (topName) topName.innerText = user.full_name;
+      if (topName) {
+        // Pour l'admin, ne pas afficher le nom personnel — laisser vide
+        topName.innerText = user.role === 'ADMIN' ? '' : user.full_name;
+      }
 
       const topRole = document.getElementById('topUserRole');
       if (topRole) {
@@ -2490,7 +2512,12 @@
 
       const topAvatar = document.getElementById('topAvatarImg');
       if (topAvatar) {
-        topAvatar.src = user.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80';
+        // Utiliser la photo de l'administrateur pour ADMIN, sinon l'URL du profil
+        if (user.role === 'ADMIN') {
+          topAvatar.src = './assets/images/image-administrateur.jpeg';
+        } else {
+          topAvatar.src = user.avatar_url || './assets/images/image-administrateur.jpeg';
+        }
       }
 
       const subTitle = document.getElementById('topbarSubtitle');
@@ -3206,16 +3233,73 @@
     }
 
     // ================================================================
+    // GÉOLOCALISATION CLIENT — Capture position GPS
+    // ================================================================
+    function captureClientGeolocation() {
+      const btn = document.getElementById('btnGeolocate');
+      const statusMsg = document.getElementById('geoStatusMsg');
+      const latInput = document.getElementById('clientTicketLatitude');
+      const lngInput = document.getElementById('clientTicketLongitude');
+      const locationField = document.getElementById('clientTicketLocation');
+
+      if (!navigator.geolocation) {
+        statusMsg.innerHTML = '<span style="color:#f04438;"><i class="fa-solid fa-circle-xmark"></i> Géolocalisation non supportée par ce navigateur.</span>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Localisation en cours...';
+      statusMsg.innerHTML = '';
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude.toFixed(6);
+          const lng = position.coords.longitude.toFixed(6);
+          latInput.value = lat;
+          lngInput.value = lng;
+
+          // Ajouter les coordonnées dans le champ de localisation
+          const currentLoc = locationField.value.trim();
+          const geoTag = ` [GPS: ${lat}, ${lng}]`;
+          if (!currentLoc.includes('[GPS:')) {
+            locationField.value = currentLoc ? currentLoc + geoTag : geoTag;
+          }
+
+          statusMsg.innerHTML = `<span style="color:#00d284;"><i class="fa-solid fa-circle-check"></i> Position capturée ! (${lat}, ${lng})</span>`;
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Position GPS détectée ✓';
+          btn.style.background = '#e6faf2';
+          btn.style.color = '#00b06f';
+          btn.style.borderColor = '#a7f3d0';
+        },
+        function(error) {
+          let errMsg = 'Impossible de détecter la position.';
+          if (error.code === 1) errMsg = 'Permission refusée. Autorisez la localisation dans votre navigateur.';
+          else if (error.code === 2) errMsg = 'Position indisponible. Vérifiez votre GPS.';
+          else if (error.code === 3) errMsg = 'Délai dépassé. Réessayez.';
+          statusMsg.innerHTML = `<span style="color:#f04438;"><i class="fa-solid fa-circle-xmark"></i> ${errMsg}</span>`;
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Réessayer la localisation';
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+
+    // ================================================================
     // SOUMISSION TICKET CLIENT → BASE DE DONNÉES
     // ================================================================
     async function handleClientTicketSubmit(e) {
       e.preventDefault();
       const form = e.target;
-      const inputs = form.querySelectorAll('input, select, textarea');
+      const inputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
       const equipName  = inputs[0]?.value.trim();
-      const location   = inputs[1]?.value.trim();
+      const location   = document.getElementById('clientTicketLocation')?.value.trim() || inputs[1]?.value.trim();
       const urgency    = inputs[2]?.value;
       const description = inputs[3]?.value.trim();
+
+      // Récupérer les coordonnées GPS si disponibles
+      const latitude  = document.getElementById('clientTicketLatitude')?.value;
+      const longitude = document.getElementById('clientTicketLongitude')?.value;
 
       if (!equipName || !description) {
         showToast('Veuillez remplir tous les champs obligatoires.');
@@ -3229,14 +3313,28 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = 'Envoi en cours...'; }
 
-      const data = await apiCall('POST', '/api/interventions', { title, description, priority, equipment_id: equipName });
+      // Inclure les coordonnées GPS dans la requête
+      const payload = { title, description, priority, equipment_id: equipName };
+      if (latitude && longitude) {
+        payload.latitude = parseFloat(latitude);
+        payload.longitude = parseFloat(longitude);
+        payload.location_text = location;
+      }
+
+      const data = await apiCall('POST', '/api/interventions', payload);
 
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Envoyer la demande au Responsable'; }
 
       if (data.success) {
         form.reset();
+        // Réinitialiser les champs GPS
+        const geoBtn = document.getElementById('btnGeolocate');
+        const geoMsg = document.getElementById('geoStatusMsg');
+        if (geoBtn) { geoBtn.disabled = false; geoBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Détecter ma position GPS'; geoBtn.style.background='#e8f1fd'; geoBtn.style.color='#1a6cf0'; geoBtn.style.borderColor='#bcd4fb'; }
+        if (geoMsg) geoMsg.innerHTML = '';
         closeModal('modal-client-new-ticket');
-        showToast(`✅ Demande ${data.reference} enregistrée ! Le Responsable Technique a été notifié.`);
+        const gpsInfo = (latitude && longitude) ? ` 📍 Position GPS transmise aux intervenants.` : '';
+        showToast(`✅ Demande ${data.reference} enregistrée ! Le Responsable Technique a été notifié.${gpsInfo}`);
         await syncClientTickets();
       } else {
         showToast('Erreur : ' + (data.message || 'Envoi échoué'));

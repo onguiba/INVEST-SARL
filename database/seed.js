@@ -22,14 +22,16 @@ function seedDatabase() {
     const techPass = hashPassword('tech123');
     const clientPass = hashPassword('client123');
 
+    // Administrateur principal avec les nouvelles identifiants
+    const newAdminPass = hashPassword('123456');
     insertUser.run(
-      'Onguiba Boutna Daniel',
-      'daniel@africanbusiness.cm',
-      adminPass.hash, adminPass.salt,
+      'Administrateur',
+      'ndamdieujo@gmail.com',
+      newAdminPass.hash, newAdminPass.salt,
       'ADMIN',
       'Direction Générale & Systèmes',
       '+237 690 00 01 01',
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+      './assets/images/image-administrateur.jpeg'
     );
 
     insertUser.run(
@@ -83,7 +85,7 @@ function seedDatabase() {
     );
 
     console.log('✅ 6 utilisateurs créés avec mots de passe simplifiés:');
-    console.log('   - ADMIN: daniel@africanbusiness.cm / admin123');
+    console.log('   - ADMIN: ndamdieujo@gmail.com / 123456');
     console.log('   - RESP_TECH: michel@africanbusiness.cm / resp123');
     console.log('   - TECHNICIEN: jean@africanbusiness.cm / tech123');
     console.log('   - CLIENT: client@africanbusiness.cm / client123');
