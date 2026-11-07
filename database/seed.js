@@ -8,31 +8,41 @@ const { hashPassword } = require('../src/auth');
 function seedDatabase() {
   console.log('🔄 Initialisation et peuplement de la base de données TECHNOVA...');
 
-  // 1. Utilisateurs
+  // ================================================================
+  // GARANTIE ADMIN — Toujours s'assurer que l'admin existe avec
+  // les bons identifiants, même si la BDD a déjà des utilisateurs
+  // ================================================================
+  const adminPass = hashPassword('123456');
+  db.db.prepare(`
+    INSERT INTO users (full_name, email, password_hash, salt, role, department, phone, avatar_url, status)
+    VALUES (?, ?, ?, ?, 'ADMIN', ?, ?, ?, 'ACTIVE')
+    ON CONFLICT(email) DO UPDATE SET
+      full_name     = excluded.full_name,
+      password_hash = excluded.password_hash,
+      salt          = excluded.salt,
+      role          = excluded.role,
+      status        = 'ACTIVE'
+  `).run(
+    'Administrateur',
+    'ndamdieujo@gmail.com',
+    adminPass.hash, adminPass.salt,
+    'Direction Générale & Systèmes',
+    '+237 690 00 01 01',
+    './assets/images/image-administrateur.jpeg'
+  );
+  console.log('🔑 Admin garanti : ndamdieujo@gmail.com / 123456');
+
+  // 1. Autres utilisateurs (seulement si la BDD est vide)
   const existingUsers = db.get('SELECT COUNT(*) as count FROM users');
-  if (existingUsers.count === 0) {
+  if (existingUsers.count <= 1) {
     const insertUser = db.db.prepare(`
-      INSERT INTO users (full_name, email, password_hash, salt, role, department, phone, avatar_url)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT OR IGNORE INTO users (full_name, email, password_hash, salt, role, department, phone, avatar_url, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE')
     `);
 
-    // Create users with different passwords for each role
-    const adminPass = hashPassword('admin123');
-    const respPass = hashPassword('resp123');
-    const techPass = hashPassword('tech123');
+    const respPass   = hashPassword('resp123');
+    const techPass   = hashPassword('tech123');
     const clientPass = hashPassword('client123');
-
-    // Administrateur principal avec les nouvelles identifiants
-    const newAdminPass = hashPassword('123456');
-    insertUser.run(
-      'Administrateur',
-      'ndamdieujo@gmail.com',
-      newAdminPass.hash, newAdminPass.salt,
-      'ADMIN',
-      'Direction Générale & Systèmes',
-      '+237 690 00 01 01',
-      './assets/images/image-administrateur.jpeg'
-    );
 
     insertUser.run(
       'Michel Ndongo',
@@ -84,8 +94,7 @@ function seedDatabase() {
       'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
     );
 
-    console.log('✅ 6 utilisateurs créés avec mots de passe simplifiés:');
-    console.log('   - ADMIN: ndamdieujo@gmail.com / 123456');
+    console.log('✅ Autres utilisateurs créés:');
     console.log('   - RESP_TECH: michel@africanbusiness.cm / resp123');
     console.log('   - TECHNICIEN: jean@africanbusiness.cm / tech123');
     console.log('   - CLIENT: client@africanbusiness.cm / client123');
