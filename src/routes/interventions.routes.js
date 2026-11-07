@@ -5,6 +5,12 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../database/db');
 const { requireAuth, requireRoles } = require('../auth');
+const {
+  notifyNewInterventionFromClient,
+  notifyTechnicianAssignment,
+  notifyStatusChange,
+  notifyAllStakeholders
+} = require('../notificationHelper');
 
 /**
  * GET /api/interventions
@@ -150,13 +156,10 @@ router.post('/', requireAuth, (req, res) => {
 
   // Notification pour les responsables si soumise par un client
   if (req.user.role === 'CLIENT') {
-    const resps = db.all("SELECT id FROM users WHERE role IN ('RESP_TECH', 'ADMIN')");
-    resps.forEach(r => {
-      db.run(`
-        INSERT INTO notifications (user_id, title, message, type, related_reference)
-        VALUES (?, 'Nouvelle demande client', ?, 'WARNING', ?)
-      `, [r.id, `Nouvel incident signalé par ${req.user.full_name} : ${title}`, reference]);
-    });
+    notifyNewInterventionFromClient(result.lastInsertRowid, req.user.full_name, title);
+  } else if (techId) {
+    // Si affectée immédiatement, notifier le technicien
+    notifyTechnicianAssignment(result.lastInsertRowid, techId, req.user.full_name);
   }
 
   res.status(201).json({
@@ -203,11 +206,8 @@ router.patch('/:id/assign', requireAuth, requireRoles('ADMIN', 'RESP_TECH'), (re
     VALUES (?, ?, 'AFFECTATION', ?, 'Affectée', ?)
   `, [intervention.id, req.user.id, intervention.status, comment || `Affecté à ${tech ? tech.full_name : techId}`]);
 
-  // Notification pour le technicien
-  db.run(`
-    INSERT INTO notifications (user_id, title, message, type, related_reference)
-    VALUES (?, 'Nouvelle mission affectée', ?, 'INFO', ?)
-  `, [techId, `Vous avez été affecté à l'intervention ${intervention.reference} (${intervention.title})`, intervention.reference]);
+  // Notification pour le technicien et le demandeur
+  notifyTechnicianAssignment(intervention.id, techId, req.user.full_name);
 
   res.json({
     success: true,
@@ -270,13 +270,8 @@ router.patch('/:id/status', requireAuth, (req, res) => {
     VALUES (?, ?, 'STATUT_CHANGE', ?, ?, ?)
   `, [intervention.id, req.user.id, intervention.status, status, observations || 'Changement de statut']);
 
-  // Notifier le demandeur / client que sa demande avance
-  if (intervention.requester_id) {
-    db.run(`
-      INSERT INTO notifications (user_id, title, message, type, related_reference)
-      VALUES (?, 'Évolution de votre intervention', ?, 'INFO', ?)
-    `, [intervention.requester_id, `Votre demande ${intervention.reference} est désormais [${status}]`, intervention.reference]);
-  }
+  // Notifier tous les acteurs concernés
+  notifyStatusChange(intervention.id, intervention.status, status, req.user.id);
 
   res.json({
     success: true,
